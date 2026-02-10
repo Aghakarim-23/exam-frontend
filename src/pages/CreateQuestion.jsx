@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import api from "../api/axios";
 
 const CreateQuestion = () => {
   const [questionFormData, setQuestionFormData] = useState({
@@ -36,7 +37,7 @@ const CreateQuestion = () => {
 };
 
     try {
-        await axios.post("http://localhost:8001/api/questions", payload)
+        await api.post("/api/questions", payload)
         toast.success("Question submitted successfully!");
         setQuestionFormData({
             question: "",

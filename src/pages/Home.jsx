@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import QuizTimer from "../components/QuizTimer";
 import { useNavigate } from "react-router-dom";
+import api from "../api/axios";
 
 const Home = () => {
   const [questions, setQuestions] = useState([]);
@@ -14,7 +15,7 @@ const Home = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const res = await axios.get("http://localhost:8001/api/questions");
+        const res = await api.get("/api/questions");
         setQuestions(res.data);
       } catch (error) {
         console.error(error);
@@ -32,7 +33,6 @@ const Home = () => {
       setScore(prevScore => prevScore + 1);
     }
 
-    // Check if this is the last question
     if(currentQuestionIndex === questions.length - 1) {
       navigate("/results", {state: {score: score + (selectedOptionIndex === Number(questions[currentQuestionIndex]?.correctAnswer) ? 1 : 0), totalQuestions: totalQuestions, timeUsed: timeUsed}});
     } else {
