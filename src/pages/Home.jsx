@@ -1,8 +1,8 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import QuizTimer from "../components/QuizTimer";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
+import Loader from "../components/Loader";
 
 const Home = () => {
   const [questions, setQuestions] = useState([]);
@@ -11,14 +11,18 @@ const Home = () => {
   const [score, setScore] = useState(0);
   const [startTime] = useState(Date.now());
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const getData = async () => {
+      setLoading(true)
       try {
         const res = await api.get("/api/questions");
         setQuestions(res.data);
       } catch (error) {
         console.error(error);
+      } finally {
+        setLoading(false);
       }
     };
     getData();
@@ -52,7 +56,8 @@ const Home = () => {
   return (
     <>
       <div className="min-h-screen flex justify-center items-center bg-gray-100 p-3">
-        <div className="max-w-md w-full bg-white rounded-md shadow-md p-8">
+       {loading ? <Loader/> : (
+         <div className="max-w-md w-full bg-white rounded-md shadow-md p-8">
           <div className="mb-4 ">
             <div className="flex justify-between">
               <p className="text-lg font-semibold bg-linear-to-tr from-blue-800 to bg-blue-300  bg-clip-text text-transparent">
@@ -87,6 +92,7 @@ const Home = () => {
             </button>
           </div>
         </div>
+       )}
       </div>
     </>
   );
