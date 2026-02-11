@@ -1,101 +1,42 @@
-import { useEffect, useState } from "react";
-import QuizTimer from "../components/QuizTimer";
+import { IoBookOutline } from "react-icons/io5";
+import { TfiTimer } from "react-icons/tfi";
 import { useNavigate } from "react-router-dom";
-import api from "../api/axios";
-import Loader from "../components/Loader";
 
 const Home = () => {
-  const [questions, setQuestions] = useState([]);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [selectedOptionIndex, setSelectedOptionIndex] = useState(null);
-  const [score, setScore] = useState(0);
-  const [startTime] = useState(Date.now());
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    const getData = async () => {
-      setLoading(true)
-      try {
-        const res = await api.get("/api/questions");
-        setQuestions(res.data);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    getData();
-  }, []);
-
-  const handleChangeQuestion = () => {
-    const totalQuestions = questions.length;
-    const endTime = Date.now();
-    const timeUsed = Math.floor((endTime - startTime) / 1000); 
-
-    if (selectedOptionIndex === Number(questions[currentQuestionIndex]?.correctAnswer)) {
-      setScore(prevScore => prevScore + 1);
-    }
-
-    if(currentQuestionIndex === questions.length - 1) {
-      navigate("/results", {state: {score: score + (selectedOptionIndex === Number(questions[currentQuestionIndex]?.correctAnswer) ? 1 : 0), totalQuestions: totalQuestions, timeUsed: timeUsed}});
-    } else {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-      setSelectedOptionIndex(null);
-    }
-  };
-
-  const handleOptionSelect = (index) => {
-    setSelectedOptionIndex(index);
-  };
-
-  const correctAnswerIndex = Number(
-    questions[currentQuestionIndex]?.correctAnswer,
-  );
-
   return (
     <>
-      <div className="min-h-screen flex justify-center items-center bg-gray-100 p-3">
-       {loading ? <Loader/> : (
-         <div className="max-w-md w-full bg-white rounded-md shadow-md p-8">
-          <div className="mb-4 ">
-            <div className="flex justify-between">
-              <p className="text-lg font-semibold bg-linear-to-tr from-blue-800 to bg-blue-300  bg-clip-text text-transparent">
-                Question {currentQuestionIndex + 1} of {questions.length}
-              </p>
-                <QuizTimer />
-            </div>
-            <p className="text-gray-700 text-center my-4 font-semibold">
-              {questions[currentQuestionIndex]?.questionText}
-            </p>
+      <div className="py-32 flex flex-col justify-center items-center">
+
+        <div className="flex flex-col justify-center items-center text-center">
+          <div className="bg-blue-200 p-5 rounded-full">
+            <IoBookOutline className="text-6xl text-blue-600 " />
           </div>
-          {
-            <div className="my-4 flex flex-col gap-3">
-              {questions[currentQuestionIndex]?.options.map((option, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleOptionSelect(index)}
-                  className={`w-full rounded-md  p-3 hover:bg-gray-400 hover:text-white border border-zinc-500 transition cursor-pointer 
-                ${selectedOptionIndex !== null && index === correctAnswerIndex ? "bg-green-500 text-white" : selectedOptionIndex !== null && index === selectedOptionIndex ? "bg-red-500 text-white" : "bg-gray-100"}`}
-                >
-                  {option}
-                </button>
-              ))}
-            </div>
-          }
-          <div>
-            <button
-              onClick={() => handleChangeQuestion()}
-              className="w-full bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 active:bg-blue-800 transition cursor-pointer"
-            >
-              Next
-            </button>
-          </div>
+          <h1 className="text-4xl font-semibold mt-4">Welcome to the Quiz App</h1>
+          <h3 className="text-lg my-4">Test your knowledge with our interactive quizzes!</h3>
         </div>
-       )}
+        <div className="w-full p-4 flex flex-col gap-3 md:flex-row justify-center items-center">
+
+           <div className="bg-blue-200 text-blue-800 max-w-[320px] text w-full flex flex-col gap-3 justify-center items-center rounded-md border border-zinc-600 p-3 shadow-xl">
+              <IoBookOutline className="text-3xl"/>
+              <p className="font-bold">10</p>
+              <p>Questions</p>
+            </div>
+
+             <div className="bg-green-200 text-green-800 max-w-[320px] text w-full flex flex-col gap-3 justify-center items-center rounded-md border border-zinc-600 p-3 shadow-xl">
+              <TfiTimer className="text-3xl"/>
+              <p className="font-bold">5:00</p>
+              <p>Minutes</p>
+            </div>
+
+        </div>
+
+            <button 
+              onClick={() => navigate("/quiz-page")}
+              className="bg-blue-500 text-white px-6 py-3 rounded-md hover:bg-blue-600 active:bg-blue-800 transition cursor-pointer mt-4">Start quiz</button>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home
