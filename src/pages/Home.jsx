@@ -1,6 +1,10 @@
 import { IoBookOutline } from "react-icons/io5";
 import { TfiTimer } from "react-icons/tfi";
 import { useNavigate } from "react-router-dom";
+import { MdOutlineTopic } from "react-icons/md";
+import { MdOutlineQuiz } from "react-icons/md";
+
+
 
 const Home = () => {
   const navigate = useNavigate();
@@ -18,7 +22,13 @@ const Home = () => {
         <div className="w-full p-4 flex flex-col gap-3 md:flex-row justify-center items-center">
 
            <div className="bg-blue-200 text-blue-800 max-w-[320px] text w-full flex flex-col gap-3 justify-center items-center rounded-md border border-zinc-600 p-3 shadow-xl">
-              <IoBookOutline className="text-3xl"/>
+              <MdOutlineTopic className="text-3xl"/>
+              <p className="font-bold">3</p>
+              <p>Topics</p>
+            </div>
+
+           <div className="bg-pink-200 text-pink-800 max-w-[320px] text w-full flex flex-col gap-3 justify-center items-center rounded-md border border-zinc-600 p-3 shadow-xl">
+              <MdOutlineQuiz className="text-3xl"/>
               <p className="font-bold">10</p>
               <p>Questions</p>
             </div>
