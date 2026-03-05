@@ -19,21 +19,21 @@ const Home = () => {
           <h1 className="text-4xl font-semibold mt-4">Welcome to the Quiz App</h1>
           <h3 className="text-lg my-4">Test your knowledge with our interactive quizzes!</h3>
         </div>
-        <div className="w-full p-4 flex flex-col gap-3 md:flex-row justify-center items-center">
+        <div className="w-full p-4 flex flex-col gap-6 md:flex-row justify-center items-center">
 
-           <div className="bg-blue-200 text-blue-800 max-w-[320px] text w-full flex flex-col gap-3 justify-center items-center rounded-md border border-zinc-600 p-3 shadow-xl">
+           <div className="hover:scale-105 transition bg-blue-200 text-blue-800 max-w-[320px] text w-full flex flex-col gap-3 justify-center items-center rounded-md border border-zinc-600 p-3 shadow-xl">
               <MdOutlineTopic className="text-3xl"/>
               <p className="font-bold">3</p>
               <p>Topics</p>
             </div>
 
-           <div className="bg-pink-200 text-pink-800 max-w-[320px] text w-full flex flex-col gap-3 justify-center items-center rounded-md border border-zinc-600 p-3 shadow-xl">
+           <div className="hover:scale-105 transition bg-pink-200 text-pink-800 max-w-[320px] text w-full flex flex-col gap-3 justify-center items-center rounded-md border border-zinc-600 p-3 shadow-xl">
               <MdOutlineQuiz className="text-3xl"/>
-              <p className="font-bold">10</p>
+              <p className="font-bold">15</p>
               <p>Questions</p>
             </div>
 
-             <div className="bg-green-200 text-green-800 max-w-[320px] text w-full flex flex-col gap-3 justify-center items-center rounded-md border border-zinc-600 p-3 shadow-xl">
+             <div className="hover:scale-105 transition bg-green-200 text-green-800 max-w-[320px] text w-full flex flex-col gap-3 justify-center items-center rounded-md border border-zinc-600 p-3 shadow-xl">
               <TfiTimer className="text-3xl"/>
               <p className="font-bold">5:00</p>
               <p>Minutes</p>
@@ -42,7 +42,7 @@ const Home = () => {
         </div>
 
             <button 
-              onClick={() => navigate("/quiz-page")}
+              onClick={() => navigate("/topics")}
               className="bg-blue-500 text-white px-6 py-3 rounded-md hover:bg-blue-600 active:bg-blue-800 transition cursor-pointer mt-4">Start quiz</button>
       </div>
     </>
