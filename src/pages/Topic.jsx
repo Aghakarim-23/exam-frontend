@@ -46,9 +46,7 @@ const Topic = () => {
 
       if (index === correct) setScore((prev) => prev + 1);
 
-      console.log(
-        `Menim secdiyim cavab ${index}, backendden gelen cavab: ${correct}`,
-      );
+      
     } catch (error) {
       console.error(error);
     }

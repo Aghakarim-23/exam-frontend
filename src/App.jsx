@@ -8,10 +8,14 @@ import QuizPage from "./pages/QuizPage";
 import Questions from "./pages/Questions";
 import Topics from "./pages/Topics";
 import Topic from "./pages/Topic";
+import KeepAlive from "./components/KeepAlive";
 
 const App = () => {
   return (
     <>
+
+    <KeepAlive/>
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/create-question" element={<CreateQuestion />} />
