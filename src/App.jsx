@@ -9,6 +9,8 @@ import Questions from "./pages/Questions";
 import Topics from "./pages/Topics";
 import Topic from "./pages/Topic";
 import KeepAlive from "./components/KeepAlive";
+import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
 
 const App = () => {
   return (
@@ -24,6 +26,8 @@ const App = () => {
         <Route path="/questions" element={<Questions />} />
         <Route path="/topics" element={<Topics />} />
         <Route path="/topic/:slug" element={<Topic />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
       
       <ToastContainer />
