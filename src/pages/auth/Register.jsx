@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import api from "../../api/axios";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -29,7 +30,7 @@ const Register = () => {
         password: "",
       });
     } catch (error) {
-      console.error("Registration failed:", error);
+      toast.error(error.response?.data?.message || "Qeydiyyatdan keçmək mümkün olmadı");
     } finally {
       setLoading(false);
     }
@@ -39,17 +40,17 @@ const Register = () => {
     <>
       <div className=" w-full  h-screen flex justify-center items-center bg-gray-100 p-3">
         <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-md">
-          <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
+          <h2 className="text-2xl font-bold mb-6 text-center">Qeydiyyat</h2>
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col gap-4">
               <div>
                 <label className="block mb-1 text-sm font-medium text-gray-700">
-                  Name
+                  Ad
                 </label>
                 <input
                   type="text"
                   className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="Enter your name"
+                  placeholder="Adınızı daxil edin"
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
@@ -57,12 +58,12 @@ const Register = () => {
               </div>
               <div>
                 <label className="block mb-1 text-sm font-medium text-gray-700">
-                  Username
+                  İstifadəçi adı
                 </label>
                 <input
                   type="text"
                   className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="Enter your username"
+                  placeholder="İstifadəçi adınızı daxil edin"
                   name="username"
                   value={formData.username}
                   onChange={handleChange}
@@ -83,12 +84,12 @@ const Register = () => {
               </div>
               <div>
                 <label className="block mb-1 text-sm font-medium text-gray-700">
-                  Password
+                  Şifrə
                 </label>
                 <input
                   type="password"
                   className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="Enter your password"
+                  placeholder="Şifrənizi daxil edin"
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
@@ -99,14 +100,14 @@ const Register = () => {
                 className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 transition duration-200"
                 disabled={loading}
               >
-                {loading ? "Registering..." : "Register"}
+                {loading ? "Qeydiyyat aparılır..." : "Qeydiyyatdan keçin"}
               </button>
             </div>
             <div>
               <p className="text-sm text-gray-600 mt-4 text-center">
-                Don't have an account?{" "}
+                Hesabınız yoxdur?{" "}
                 <Link to="/login" className="text-blue-500 hover:underline">
-                  Already have an account? Login here
+                  Hesabınız var? Buradan daxil olun
                 </Link>
               </p>
             </div>

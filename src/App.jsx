@@ -1,7 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import CreateQuestion from "./pages/CreateQuestion";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Results from "./pages/Results";
 import QuizPage from "./pages/QuizPage";
@@ -11,6 +10,8 @@ import Topic from "./pages/Topic";
 import KeepAlive from "./components/KeepAlive";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
+import { ToastContainer } from "react-toastify";
+
 
 const App = () => {
   return (
