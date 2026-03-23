@@ -11,6 +11,7 @@ import KeepAlive from "./components/KeepAlive";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import { ToastContainer } from "react-toastify";
+import ConfrimationPage from "./pages/auth/ConfirmationPage"
 
 
 const App = () => {
@@ -29,6 +30,8 @@ const App = () => {
         <Route path="/topic/:slug" element={<Topic />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/verify-email/:token" element={<ConfrimationPage/>} />
+
       </Routes>
       
       <ToastContainer />

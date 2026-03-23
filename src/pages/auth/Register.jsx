@@ -19,10 +19,14 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+      if (!formData.name || !formData.username || !formData.email || !formData.password) {
+      toast.error("Bütün xanaları doldurun");
+      return;
+    }
     setLoading(true);
     try {
       const response = await api.post("/api/auth/register", formData);
-      console.log("Registration successful:", response.data);
+      toast.success(response.data?.message || "Qeydiyyat uğurlu oldu. Emailinizi təsdiqləyin.");
       setFormData({
         name: "",
         username: "",

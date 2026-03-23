@@ -19,10 +19,13 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!formData.email || !formData.password) {
+      toast.error("Email və şifrəni daxil edin");
+      return;
+    }
     setLoading(true);
     try {
       const response = await api.post("/api/auth/login", formData);
-      console.log("Daxil olma uğurlu:", response.data);
       setFormData({
         name: "",
         username: "",
