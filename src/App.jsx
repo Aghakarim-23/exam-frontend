@@ -12,6 +12,7 @@ import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import { ToastContainer } from "react-toastify";
 import ConfrimationPage from "./pages/auth/ConfirmationPage"
+import ForgotPassword from "./pages/auth/ForgotPassword";
 
 
 const App = () => {
@@ -31,6 +32,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/verify-email/:token" element={<ConfrimationPage/>} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
 
       </Routes>
       
