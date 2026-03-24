@@ -7,19 +7,18 @@ import QuizPage from "./pages/QuizPage";
 import Questions from "./pages/Questions";
 import Topics from "./pages/Topics";
 import Topic from "./pages/Topic";
-import KeepAlive from "./components/KeepAlive";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import { ToastContainer } from "react-toastify";
 import ConfrimationPage from "./pages/auth/ConfirmationPage"
 import ForgotPassword from "./pages/auth/ForgotPassword";
+import ResetPassword from "./pages/auth/ResetPassword";
 
 
 const App = () => {
   return (
     <>
 
-    <KeepAlive/>
 
       <Routes>
         <Route path="/" element={<Home />} />
@@ -33,6 +32,7 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/verify-email/:token" element={<ConfrimationPage/>} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
 
       </Routes>
       
