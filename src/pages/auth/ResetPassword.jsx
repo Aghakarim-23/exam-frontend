@@ -14,20 +14,19 @@ const ResetPassword = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post(
-        "http://localhost:8001/api/auth/reset-password",
-        {
-          token,
-          newPassword: password,
-          confirmPassword: confirmPassword,
-        },
-      );
+      const res = await axios.post("/api/auth/reset-password", {
+        token,
+        newPassword: password,
+        confirmPassword: confirmPassword,
+      });
       toast.success("Şifrəniz uğurla dəyişdirildi");
       setTimeout(() => {
         navigate("/login");
       }, 3000);
     } catch (error) {
-      toast.error(error.response?.data?.message || "Şifrə sıfırlama xətası baş verdi.");
+      toast.error(
+        error.response?.data?.message || "Şifrə sıfırlama xətası baş verdi.",
+      );
     }
   };
 
