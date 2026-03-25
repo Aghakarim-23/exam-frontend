@@ -20,6 +20,8 @@ const ResetPassword = () => {
         confirmPassword: confirmPassword,
       });
       toast.success("Şifrəniz uğurla dəyişdirildi");
+      setPassword("");
+      setConfirmPassword("");
       setTimeout(() => {
         navigate("/login");
       }, 3000);
