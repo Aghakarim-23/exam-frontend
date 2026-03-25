@@ -67,7 +67,7 @@ const Profile = () => {
                     className="rounded-lg cursor-pointer text-white bg-red-600 hover:bg-red-500 transition px-8 py-1"
                     onClick={logout}
                   >
-                    Çıxış
+                    Çıxış 
                   </button>
                 </div>
               </div>
