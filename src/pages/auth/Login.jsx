@@ -3,6 +3,7 @@ import api from "../../api/axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { FiEye, FiEyeOff } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 
 const Login = () => {
@@ -15,6 +16,7 @@ const Login = () => {
 
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -35,6 +37,7 @@ const Login = () => {
         email: "",
         password: "",
       });
+      navigate("/profile");
     } catch (error) {
       toast.error(error.response?.data?.message || "Daxil olmaq mümkün olmadı");
     } finally {
