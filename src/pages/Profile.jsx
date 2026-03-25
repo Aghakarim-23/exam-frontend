@@ -4,6 +4,15 @@ import Spinner from "../components/shared/Spinner";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
+  
+  const logout = async () => {
+    try {
+      await api.post("/api/auth/logout");
+      window.location.href = "/login";
+    } catch (error) {
+      console.error("Logout xətası:", error);
+    }
+  };
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -21,7 +30,7 @@ const Profile = () => {
   }, []);
   return (
     <>
-      <div className="min-h-screen flex justify-center items-center bg-gray-100 p-3">
+      <div className="min-h-screen flex flex-col justify-center items-center bg-gray-100 p-3">
         {user ? (
           <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
             <h2 className="text-2xl font-bold mb-6 text-center">
@@ -53,6 +62,14 @@ const Profile = () => {
                 <p>
                   <strong>İstifadəçi adı:</strong> {user?.username}
                 </p>
+                <div className="w-full flex justify-center mt-6">
+                  <button
+                    className="rounded-lg cursor-pointer text-white bg-red-600 hover:bg-red-500 transition px-8 py-1"
+                    onClick={logout}
+                  >
+                    Çıxış
+                  </button>
+                </div>
               </div>
             ) : (
               <p className="text-center text-gray-500">Yüklənir...</p>
