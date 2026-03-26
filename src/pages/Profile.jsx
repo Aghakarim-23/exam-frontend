@@ -1,22 +1,17 @@
 import React, { useEffect, useState } from "react";
 import api from "../api/axios";
 import Spinner from "../components/shared/Spinner";
-import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import "dayjs/locale/az";
-
+import { useAuth } from "../hooks/useAuth";
 
 dayjs.locale("az");
 
 const Profile = () => {
   const [user, setUser] = useState(null);
-  const navigate = useNavigate();
-  
-  const logout = async () => {
-   localStorage.removeItem("token");
-   setUser(null);
-    navigate("/login");
-  };
+
+
+  const { logout } = useAuth();
 
   useEffect(() => {
     const fetchUser = async () => {
