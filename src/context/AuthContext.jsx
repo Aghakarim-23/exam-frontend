@@ -11,22 +11,25 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setLoading(false); 
+      return;
+    }
 
-    useEffect(() => {
     const fetchUser = async () => {
       try {
         const res = await api.get("/api/auth/me");
         setUser(res.data.user);
       } catch (error) {
-        setUser(null); 
+        setUser(null);
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     };
     fetchUser();
   }, []);
-
-
 
   const login = async (formData) => {
     if (!formData.email || !formData.password) {
