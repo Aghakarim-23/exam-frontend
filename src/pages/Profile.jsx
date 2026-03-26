@@ -2,6 +2,11 @@ import React, { useEffect, useState } from "react";
 import api from "../api/axios";
 import Spinner from "../components/shared/Spinner";
 import { useNavigate } from "react-router-dom";
+import dayjs from "dayjs";
+import "dayjs/locale/az";
+
+
+dayjs.locale("az");
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -62,7 +67,7 @@ const Profile = () => {
                   <strong>İstifadəçi adı:</strong> {user?.username}
                 </p>
                 <p>
-                  <strong>Qeydiyyat tarixi:</strong> {user?.createdAt}
+                  <strong>Qeydiyyat tarixi:</strong> {dayjs(user?.createdAt).format("DD MMMM YYYY")}
                 </p>
                 <div className="w-full flex justify-center mt-6">
                   <button
