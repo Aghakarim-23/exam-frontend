@@ -1,5 +1,7 @@
 import { Navigate } from "react-router-dom";
 import Spinner from "../shared/Spinner";
+import useAuth from "../../hooks/useAuth";
+
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();

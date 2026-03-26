@@ -3,7 +3,7 @@ import api from "../api/axios";
 import Spinner from "../components/shared/Spinner";
 import dayjs from "dayjs";
 import "dayjs/locale/az";
-import { useAuth } from "../hooks/useAuth";
+import  useAuth  from "../hooks/useAuth";
 
 dayjs.locale("az");
 
