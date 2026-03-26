@@ -8,8 +8,25 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+
+
+    useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await api.get("/api/auth/me");
+        setUser(res.data.user);
+      } catch (error) {
+        setUser(null); 
+      } finally {
+        setLoading(false); 
+      }
+    };
+    fetchUser();
+  }, []);
+
+
 
   const login = async (formData) => {
     if (!formData.email || !formData.password) {
