@@ -61,6 +61,9 @@ const Profile = () => {
                 <p>
                   <strong>İstifadəçi adı:</strong> {user?.username}
                 </p>
+                <p>
+                  <strong>Qeydiyyat tarixi:</strong> {user?.createdAt}
+                </p>
                 <div className="w-full flex justify-center mt-6">
                   <button
                     className="rounded-lg cursor-pointer text-white bg-red-600 hover:bg-red-500 transition px-8 py-1"
