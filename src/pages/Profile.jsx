@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
 import api from "../api/axios";
 import Spinner from "../components/shared/Spinner";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
   
   const logout = async () => {
-    try {
-      await api.post("/api/auth/logout");
-      window.location.href = "/login";
-    } catch (error) {
-      console.error("Logout xətası:", error);
-    }
+   localStorage.removeItem("token");
+   setUser(null);
+    navigate("/login");
   };
 
   useEffect(() => {

@@ -5,7 +5,6 @@ import { toast } from "react-toastify";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
-
 const Login = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -31,6 +30,8 @@ const Login = () => {
     setLoading(true);
     try {
       const response = await api.post("/api/auth/login", formData);
+      localStorage.setItem("token", response.data.token);
+      
       setFormData({
         name: "",
         username: "",
@@ -86,9 +87,11 @@ const Login = () => {
                     {showPassword ? <FiEyeOff /> : <FiEye />}
                   </button>
                 </div>
-
               </div>
-              <Link to="/forgot-password" className="text-sm text-right text-blue-500 hover:underline">
+              <Link
+                to="/forgot-password"
+                className="text-sm text-right text-blue-500 hover:underline"
+              >
                 Şifrəni unutmusunuz?
               </Link>
               <button
