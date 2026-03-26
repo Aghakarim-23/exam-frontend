@@ -14,6 +14,8 @@ import ConfrimationPage from "./pages/auth/ConfirmationPage"
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import ResetPassword from "./pages/auth/ResetPassword";
 import Profile from "./pages/Profile";
+import ProtectedRoute from "./components/routes/ProtectedRoute";
+import PublicRoute from "./components/routes/PublicRoute";
 
 
 const App = () => {
@@ -29,12 +31,36 @@ const App = () => {
         <Route path="/questions" element={<Questions />} />
         <Route path="/topics" element={<Topics />} />
         <Route path="/topic/:slug" element={<Topic />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/verify-email/:token" element={<ConfrimationPage/>} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password/:token" element={<ResetPassword />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/login" element={
+          <PublicRoute>
+            <Login />
+          </PublicRoute>
+        } />
+        <Route path="/register" element={
+          <PublicRoute>
+            <Register />
+          </PublicRoute>
+        } />
+        <Route path="/verify-email/:token" element={
+          <PublicRoute>
+            <ConfrimationPage />
+          </PublicRoute>
+        } />
+        <Route path="/forgot-password" element={
+          <PublicRoute>
+            <ForgotPassword />
+          </PublicRoute>
+        } />
+        <Route path="/reset-password/:token" element={
+          <PublicRoute>
+            <ResetPassword />
+          </PublicRoute>
+        } />
+        <Route path="/profile" element={
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        } />
 
       </Routes>
       

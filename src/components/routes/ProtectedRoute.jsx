@@ -1,9 +1,21 @@
-import React from 'react'
+import { Navigate } from "react-router-dom";
+import Spinner from "../shared/Spinner";
 
-const ProtectedRoute = () => {
-  return (
-    <div>ProtectedRoute</div>
-  )
-}
+const ProtectedRoute = ({ children }) => {
+  const { user, loading } = useAuth();
 
-export default ProtectedRoute
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Spinner />
+      </div>
+    );  
+  }
+ 
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+  return children;
+};
+
+export default ProtectedRoute;
