@@ -1,21 +1,17 @@
 import { Link } from "react-router-dom";
-import api from "../../api/axios";
 import { useState } from "react";
-import { toast } from "react-toastify";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import { useNavigate } from "react-router-dom";
+import  useAuth  from "../../hooks/useAuth";
 
 const Login = () => {
   const [formData, setFormData] = useState({
-    name: "",
-    username: "",
     email: "",
     password: "",
   });
 
-  const [loading, setLoading] = useState(false);
+  const { login, loading } = useAuth();
+
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -23,27 +19,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.email || !formData.password) {
-      toast.error("Email və şifrəni daxil edin");
-      return;
-    }
-    setLoading(true);
-    try {
-      const response = await api.post("/api/auth/login", formData);
-      localStorage.setItem("token", response.data.token);
-      
-      setFormData({
-        name: "",
-        username: "",
-        email: "",
-        password: "",
-      });
-      navigate("/profile");
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Daxil olmaq mümkün olmadı");
-    } finally {
-      setLoading(false);
-    }
+    login(formData);
   };
 
   return (
