@@ -33,17 +33,19 @@ const Register = () => {
         email: "",
         password: "",
       });
+      setIsOpen(true);
     } catch (error) {
       toast.error(error.response?.data?.message || "Qeydiyyatdan keçmək mümkün olmadı");
     } finally {
       setLoading(false);
+      setIsOpen(false);
     }
   };
 
   return (
     <>
       <div className=" w-full  h-screen flex justify-center items-center bg-gray-100 p-3">
-        <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-md">
+        <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-md relative">
           <h2 className="text-2xl font-bold mb-6 text-center">Qeydiyyat</h2>
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col gap-4">

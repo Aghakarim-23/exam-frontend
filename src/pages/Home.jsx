@@ -45,6 +45,9 @@ const Home = () => {
               onClick={() => navigate("/topics")}
               className="bg-blue-500 text-white px-6 py-3 rounded-md hover:bg-blue-600 active:bg-blue-800 transition cursor-pointer mt-4">Start quiz</button>
       </div>
+      <div className="py-32 flex flex-col justify-center items-center">
+
+      </div>
     </>
   )
 }
