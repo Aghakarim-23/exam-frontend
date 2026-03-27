@@ -45,7 +45,7 @@ export const AuthProvider = ({ children }) => {
 
       navigate("/profile");
     } catch (error) {
-      toast.error(error.response?.data?.message || "Daxil olmaq mümkün olmadı");
+      toast.error(error.response?.data?.message || error.message || "Daxil olmaq mümkün olmadı");
     } finally {
       setLoading(false);
     }
