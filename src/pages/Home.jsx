@@ -1,4 +1,4 @@
-import { IoBookOutline } from "react-icons/io5";
+/* import { IoBookOutline } from "react-icons/io5";
 import { TfiTimer } from "react-icons/tfi";
 import { useNavigate } from "react-router-dom";
 import { MdOutlineTopic } from "react-icons/md";
@@ -48,6 +48,29 @@ const Home = () => {
       <div className="py-32 flex flex-col justify-center items-center">
 
       </div>
+    </>
+  )
+}
+
+export default Home */
+
+
+import Hero from '../components/home/Hero'
+import QuizTypes from '../components/home/QuizTypes'
+import HowItWorks from '../components/home/HowItWorks'
+import ProgressAndSuccess from '../components/home/ProgressAndSuccess'
+import QuizWinners from '../components/home/QuizWinners'
+import OurMobileApp from '../components/home/OurMobileApp'
+
+const Home = () => {
+  return (
+    <>
+      <Hero/>
+      <QuizTypes/>
+      <QuizWinners/>
+      <HowItWorks/>
+      <ProgressAndSuccess/>
+      <OurMobileApp/>
     </>
   )
 }

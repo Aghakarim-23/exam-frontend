@@ -2,7 +2,7 @@ import React from 'react'
 
 const QuizTypes = () => {
   return (
-    <div>QuizTypes</div>
+    <div className='min-h-screen flex justify-center items-center bg-blue-200'>QuizTypes</div>
   )
 }
 

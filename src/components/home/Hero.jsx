@@ -2,7 +2,7 @@ import React from 'react'
 
 const Hero = () => {
   return (
-    <div>Hero</div>
+    <div className='min-h-screen flex justify-center items-center bg-blue-100'>Hero</div>
   )
 }
 
