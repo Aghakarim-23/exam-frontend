@@ -61,6 +61,7 @@ import HowItWorks from '../components/home/HowItWorks'
 import ProgressAndSuccess from '../components/home/ProgressAndSuccess'
 import QuizWinners from '../components/home/QuizWinners'
 import OurMobileApp from '../components/home/OurMobileApp'
+import Contact from '../components/home/Contact'
 
 const Home = () => {
   return (
@@ -71,6 +72,7 @@ const Home = () => {
       <HowItWorks/>
       <ProgressAndSuccess/>
       <OurMobileApp/>
+      <Contact/>
     </>
   )
 }

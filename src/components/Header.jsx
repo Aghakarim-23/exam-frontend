@@ -11,8 +11,8 @@ const Header = () => {
 
   return (
     <>
-      <header className="bg-white shadow ">
-        <div className="flex justify-between items-center max-w-7xl mx-auto h-16 sm:h-18 md:h-20 px-4 sm:px-6 lg:px-8">
+      <header className="bg-white flex justify-between items-center">
+        <div className="w-full md:w-fit flex justify-between md:justify-center items-center  h-16 sm:h-18 md:h-20 px-4 sm:px-6 lg:px-8">
           <Link to="/" className="text-2xl font-bold text-gray-900">
             My App
           </Link>
@@ -60,31 +60,52 @@ const Header = () => {
           )}
           <div className="text-center flex flex-col gap-4 mt-6">
             <a
-              href="#about"
+              href="#quizs"
               className="block px-4 py-4 text-gray-800 border-b border-gray-300"
+              onClick={() => setMenuOpen(!menuOpen)}
             >
               Quizlər
             </a>
             <a
-              href="#about"
+              href="#winners"
               className="block px-4 py-4 text-gray-800 border-b border-gray-300"
+              onClick={() => setMenuOpen(!menuOpen)}
             >
               Qaliblər
             </a>
             <a
-              href="#services"
+              href="#how-it-works"
               className="block px-4 py-4 text-gray-800 border-b border-gray-300"
+              onClick={() => setMenuOpen(!menuOpen)}
             >
               Necə işləyir ?
             </a>
             <a
               href="#contact"
               className="block px-4 py-4 text-gray-800 border-b border-gray-300"
+              onClick={() => setMenuOpen(!menuOpen)}
             >
               Əlaqə
             </a>
           </div>
         </div>
+
+   
+
+        <nav className="hidden md:flex gap-4 px-4">
+          <a href="#quizs" className="text-gray-700 hover:text-blue-600">
+            Quizlər
+          </a>
+          <a href="#winners" className="text-gray-700 hover:text-blue-600">
+            Qaliblər
+          </a>
+          <a href="#how-it-works" className="text-gray-700 hover:text-blue-600">
+            Necə işləyir ?
+          </a>
+          <a href="#contact" className="text-gray-700 hover:text-blue-600">
+            Əlaqə
+          </a>
+        </nav>
       </header>
     </>
   );
