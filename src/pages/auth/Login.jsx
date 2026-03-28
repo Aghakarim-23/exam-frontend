@@ -72,7 +72,7 @@ const Login = () => {
               </Link>
               <button
                 type="submit"
-                className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 transition duration-200 cursor-pointer disabled:cursor-not-allowed"
+                className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 transition duration-200 cursor-pointer"
                 disabled={loading}
               >
                 {loading ? "Daxil olunur..." : "Daxil ol"}

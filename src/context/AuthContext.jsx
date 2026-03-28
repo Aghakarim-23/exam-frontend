@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
 
       setUser(response.data.user);
 
-      navigate("/profile");
+      navigate("/");
     } catch (error) {
       toast.error(error.response?.data?.message || error.message || "Daxil olmaq mümkün olmadı");
     } finally {
