@@ -19,7 +19,7 @@ const QuizTimer = () => {
 
   return (
       <div className="flex justify-center items-center h-7 ">
-        <h1 className="text-lg font-semibold bg-gradient-to-tr from-blue-800 to bg-blue-300  bg-clip-text text-transparent">
+        <h1 className="text-lg font-semibold bg-linear-to-tr from-blue-800 to bg-blue-300  bg-clip-text text-transparent">
           Quiz Timer: {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
         </h1>
       </div>
