@@ -91,7 +91,7 @@ const Header = () => {
         </div>
 
    
-
+        {/* desktop menu */}
         <nav className="hidden md:flex gap-4 px-4">
           <a href="#quizs" className="text-gray-700 hover:text-blue-600">
             Quizlər
@@ -106,6 +106,32 @@ const Header = () => {
             Əlaqə
           </a>
         </nav>
+
+        <div className="hidden md:flex gap-4">
+          {user ? (
+            <Link
+              to="/profile"
+              className="px-4 py-2 rounded-md text-gray-800 hover:bg-gray-100 transition"
+            >
+              {user.name}
+            </Link>
+          ) : (
+            <>
+              <Link
+                to="/login"
+                className="px-4 py-2 rounded-md font-medium text-white bg-blue-600 active:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-150"
+              >
+                Daxil ol
+              </Link>
+              <Link
+                to="/register"
+                className="px-4 py-2 rounded-md font-medium text-blue-700 bg-blue-100 active:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-150"
+              >
+                Qeydiyyat
+              </Link>
+            </>
+          )}
+        </div>
       </header>
     </>
   );

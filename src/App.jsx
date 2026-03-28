@@ -25,16 +25,14 @@ const App = () => {
 
 
       <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-        </Route>
         <Route path="/create-question" element={<CreateQuestion />} />
         <Route path="/results" element={<Results />} />
         <Route path="/quiz-page" element={<QuizPage />} />
         <Route path="/questions" element={<Questions />} />
         <Route path="/topics" element={<Topics />} />
         <Route path="/topic/:slug" element={<Topic />} />
-        <Route path="/login" element={
+
+          <Route path="/login" element={
           <PublicRoute>
             <Login />
           </PublicRoute>
@@ -44,6 +42,10 @@ const App = () => {
             <Register />
           </PublicRoute>
         } />
+
+       <Route element={<Layout />}>
+        <Route index element={<Home />} />
+      
         <Route path="/verify-email/:token" element={
           <PublicRoute>
             <ConfrimationPage />
@@ -59,12 +61,12 @@ const App = () => {
             <ResetPassword />
           </PublicRoute>
         } />
-        <Route path="/profile" element={
-          <ProtectedRoute>
-            <Profile />
-          </ProtectedRoute>
-        } />
 
+        <Route element={<ProtectedRoute />}>
+            <Route path="/profile" element={<Profile />} />
+        </Route>
+
+       </Route>
       </Routes>
       
       <ToastContainer />
