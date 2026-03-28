@@ -47,7 +47,7 @@ const ForgotPassword = () => {
           </div>
           <button
             disabled={loading}
-            className="w-full bg-green-500 text-white p-2 rounded-md hover:bg-green-600 transition duration-200 cursor-pointer"
+            className="w-full bg-green-500 text-white p-2 rounded-md hover:bg-green-600 transition duration-200 cursor-pointer disabled:cursor-not-allowed"
           >
             {loading ? "Göndərilir..." : "Göndər"}
           </button>

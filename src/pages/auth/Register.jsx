@@ -103,7 +103,7 @@ const Register = () => {
               </div>
               <button
                 type="submit"
-                className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 transition duration-200 cursor-pointer"
+                className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 transition duration-200 cursor-pointer disabled:cursor-not-allowed"
                 disabled={loading}
               >
                 {loading ? "Qeydiyyat aparılır..." : "Qeydiyyatdan keçin"}

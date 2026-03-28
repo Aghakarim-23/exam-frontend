@@ -58,7 +58,7 @@ const ResetPassword = () => {
             required
           />
 
-          <button className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 cursor-pointer">
+          <button className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 cursor-pointer disabled:cursor-not-allowed">
             Şifrəni dəyiş
           </button>
         </form>
