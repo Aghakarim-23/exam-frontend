@@ -16,6 +16,7 @@ import ResetPassword from "./pages/auth/ResetPassword";
 import Profile from "./pages/Profile";
 import ProtectedRoute from "./components/routes/ProtectedRoute";
 import PublicRoute from "./components/routes/PublicRoute";
+import Layout from "./layouts/Layout";
 
 
 const App = () => {
@@ -24,7 +25,9 @@ const App = () => {
 
 
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+        </Route>
         <Route path="/create-question" element={<CreateQuestion />} />
         <Route path="/results" element={<Results />} />
         <Route path="/quiz-page" element={<QuizPage />} />
