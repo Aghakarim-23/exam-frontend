@@ -16,7 +16,10 @@ import ResetPassword from "./pages/auth/ResetPassword";
 import Profile from "./pages/Profile";
 import ProtectedRoute from "./components/routes/ProtectedRoute";
 import PublicRoute from "./components/routes/PublicRoute";
-import Layout from "./layouts/Layout";
+import MainLayout from "./layouts/Layout";
+import DashboardLayout from "./layouts/DashboardLayout";
+import MyAccount from "./pages/MyAccount";
+import Settings from "./pages/Settings";
 
 
 const App = () => {
@@ -43,8 +46,9 @@ const App = () => {
           </PublicRoute>
         } />
 
-       <Route element={<Layout />}>
+       <Route element={<MainLayout />}>
         <Route index element={<Home />} />
+      </Route>
       
         <Route path="/verify-email/:token" element={
           <PublicRoute>
@@ -63,10 +67,17 @@ const App = () => {
         } />
 
         <Route element={<ProtectedRoute />}>
-            <Route path="/profile" element={<Profile />} />
+            <Route element={<DashboardLayout/>}>
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/my-account" element={<MyAccount />} />
+              <Route path="/settings" element={<Settings />} />
+            </Route>
         </Route>
 
-       </Route>
+
+
+
+
       </Routes>
       
       <ToastContainer />

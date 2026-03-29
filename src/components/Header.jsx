@@ -1,13 +1,19 @@
 import { HiOutlineMenu } from "react-icons/hi";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { GrClose } from "react-icons/gr";
 import { useState } from "react";
+import { FaRegUser } from "react-icons/fa6";
+
+
 
 
 const Header = () => {
   const { user } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
+  const { pathname } = useLocation();
+  const isHome = pathname === "/";
+  console.log(isHome)
 
   return (
     <>
@@ -92,7 +98,8 @@ const Header = () => {
 
    
         {/* desktop menu */}
-        <nav className="hidden md:flex gap-4 px-4">
+     {isHome && (
+         <nav className="hidden md:flex gap-4 px-4">
           <a href="#quizs" className="text-gray-700 hover:text-blue-600">
             Quizlər
           </a>
@@ -106,15 +113,17 @@ const Header = () => {
             Əlaqə
           </a>
         </nav>
+     )}
 
-        <div className="hidden md:flex gap-4">
+        <div className="hidden md:flex gap-4 px-4">
           {user ? (
-            <Link
-              to="/profile"
-              className="px-4 py-2 rounded-md text-gray-800 hover:bg-gray-100 transition"
-            >
-              {user.name}
-            </Link>
+              <Link
+                to="/profile"
+                className="px-4 py-2 rounded-md text-gray-800 hover:bg-gray-100 transition flex items-center gap-1"
+              >
+                <FaRegUser className="inline-block mr-1" />
+                <span>{user.name}</span>
+              </Link>
           ) : (
             <>
               <Link
