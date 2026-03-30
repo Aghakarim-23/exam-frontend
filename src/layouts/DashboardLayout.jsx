@@ -1,7 +1,8 @@
 import { NavLink, Outlet } from "react-router-dom";
 import { AiOutlineHome } from "react-icons/ai";
-import { FaRegUser } from "react-icons/fa";
 import { FiUser, FiSettings } from "react-icons/fi";
+import { RxDashboard } from "react-icons/rx";
+
 
 const DashboardLayout = () => {
   return (
@@ -30,7 +31,7 @@ const DashboardLayout = () => {
      }`
           }
         >
-          <FaRegUser className="text-xl md:mr-2" />
+          <RxDashboard className="text-xl md:mr-2" />
           <span className="hidden md:inline">Profil</span>
         </NavLink>
 
