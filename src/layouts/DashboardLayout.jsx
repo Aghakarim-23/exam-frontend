@@ -32,7 +32,7 @@ const DashboardLayout = () => {
           }
         >
           <RxDashboard className="text-xl md:mr-2" />
-          <span className="hidden md:inline">Profil</span>
+          <span className="hidden md:inline">İdarəetmə paneli</span>
         </NavLink>
 
         <NavLink
@@ -45,7 +45,7 @@ const DashboardLayout = () => {
           }
         >
           <FiUser className="text-xl md:mr-2" />
-          <span className="hidden md:inline">Hesab</span>
+          <span className="hidden md:inline">Mənim hesabım</span>
         </NavLink>
 
         <NavLink

@@ -20,6 +20,7 @@ import MainLayout from "./layouts/Layout";
 import DashboardLayout from "./layouts/DashboardLayout";
 import MyAccount from "./pages/MyAccount";
 import Settings from "./pages/Settings";
+import ChangePassword from "./pages/auth/ChangePassword";
 
 
 const App = () => {
@@ -75,7 +76,7 @@ const App = () => {
         </Route>
 
 
-
+        <Route path="change-password" element={<ChangePassword/>}/>
 
 
       </Routes>
