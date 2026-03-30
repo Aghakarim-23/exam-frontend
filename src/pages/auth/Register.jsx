@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 const Register = () => {
   const [formData, setFormData] = useState({
     name: "",
+    surname: "",
     username: "",
     email: "",
     password: "",
@@ -19,7 +20,7 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-      if (!formData.name || !formData.username || !formData.email || !formData.password) {
+      if (!formData.name || !formData.surname || !formData.username || !formData.email || !formData.password) {
       toast.error("Bütün xanaları doldurun");
       return;
     }
@@ -29,6 +30,7 @@ const Register = () => {
       toast.success(response.data?.message || "Qeydiyyat uğurlu oldu. Emailinizi təsdiqləyin.");
       setFormData({
         name: "",
+        surname: "",
         username: "",
         email: "",
         password: "",
@@ -59,6 +61,19 @@ const Register = () => {
                   placeholder="Adınızı daxil edin"
                   name="name"
                   value={formData.name}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <label className="block mb-1 text-sm font-medium text-gray-700">
+                  Soyad
+                </label>
+                <input
+                  type="text"
+                  className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Soyadınızı daxil edin"
+                  name="surname"
+                  value={formData.surname}
                   onChange={handleChange}
                 />
               </div>
