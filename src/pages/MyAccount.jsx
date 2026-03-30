@@ -9,7 +9,7 @@ const MyAccount = () => {
     name: "",
     surname: "",
     username: "",
-   
+    email: ""
   });
 
   const [loading, setLoading] = useState(false);
@@ -23,7 +23,7 @@ const MyAccount = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await api.post("/api/auth/update-profile", formData);
+      const response = await api.patch("/api/auth/update-profile", formData);
       toast.success(
         response.data?.message ||
           "Profil məlumatlarınız uğurla yeniləndi",
@@ -33,14 +33,13 @@ const MyAccount = () => {
         surname: "",
         username: "",
       });
-      setIsOpen(true);
     } catch (error) {
       toast.error(
         error.response?.data?.message || "Profil məlumatlarını yeniləmək mümkün olmadı",
       );
+      console.error(error)
     } finally {
       setLoading(false);
-      setIsOpen(false);
     }
   };
 
