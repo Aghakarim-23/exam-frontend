@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import api from "../api/axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { FaPen } from "react-icons/fa";
 
@@ -9,11 +9,30 @@ const MyAccount = () => {
     name: "",
     surname: "",
     username: "",
-    email: ""
+    email: "",
   });
 
   const [loading, setLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await api.get("/api/auth/me");
+        setFormData({
+          name: response.data.user.name,
+          surname: response.data.user.surname,
+          username: response.data.user.username,
+          email: response.data.user.email,
+        });
+        console.log(response.data.user._id)
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchUser();
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -25,21 +44,23 @@ const MyAccount = () => {
     try {
       const response = await api.patch("/api/auth/update-profile", formData);
       toast.success(
-        response.data?.message ||
-          "Profil məlumatlarınız uğurla yeniləndi",
+        response.data?.message || "Profil məlumatlarınız uğurla yeniləndi",
       );
       setFormData({
-        name: "",
-        surname: "",
-        username: "",
+        name: response.data.user.name,
+        surname: response.data.user.surname,
+        username: response.data.user.username,
+        email: response.data.user.email,
       });
     } catch (error) {
       toast.error(
-        error.response?.data?.message || "Profil məlumatlarını yeniləmək mümkün olmadı",
+        error.response?.data?.message ||
+          "Profil məlumatlarını yeniləmək mümkün olmadı",
       );
-      console.error(error)
+      console.error(error);
     } finally {
       setLoading(false);
+      setIsEditing(false)
     }
   };
 
@@ -47,8 +68,9 @@ const MyAccount = () => {
     <>
       <div className=" w-full  h-screen flex justify-center items-center bg-gray-100 p-3">
         <div className="max-w-md md:max-w-xl w-full bg-white p-8 rounded-lg shadow-md relative">
-          <div className="flex gap-3 justify-center items-center mb-12 cursor-pointer "
-              onClick={() => setIsEditing(true)}
+          <div
+            className="flex gap-3 justify-center items-center mb-12 cursor-pointer "
+            onClick={() => setIsEditing(true)}
           >
             <span className="text-2xl  text-gray-700 hover:text-gray-500 transition">
               Redaktə et
@@ -60,7 +82,9 @@ const MyAccount = () => {
             <div className="flex flex-col gap-4 ">
               <div className="md:flex gap-2">
                 <div className="md:w-full">
-                  <label className={`block mb-1 text-sm font-medium text-gray-700 ${!isEditing ? "opacity-50" : ""}`}>
+                  <label
+                    className={`block mb-1 text-sm font-medium text-gray-700 ${!isEditing ? "opacity-50" : ""}`}
+                  >
                     Ad
                   </label>
                   <input
@@ -74,7 +98,9 @@ const MyAccount = () => {
                   />
                 </div>
                 <div className="md:w-full">
-                  <label className={`block mb-1 text-sm font-medium text-gray-700 ${!isEditing ? "opacity-50" : ""}`}>
+                  <label
+                    className={`block mb-1 text-sm font-medium text-gray-700 ${!isEditing ? "opacity-50" : ""}`}
+                  >
                     Soyad
                   </label>
                   <input
@@ -90,7 +116,9 @@ const MyAccount = () => {
               </div>
               <div className="md:flex gap-2">
                 <div className="w-full">
-                  <label className={`block mb-1 text-sm font-medium text-gray-700 ${!isEditing ? "opacity-50" : ""}`}>
+                  <label
+                    className={`block mb-1 text-sm font-medium text-gray-700 ${!isEditing ? "opacity-50" : ""}`}
+                  >
                     İstifadəçi adı
                   </label>
                   <input
@@ -121,12 +149,12 @@ const MyAccount = () => {
 
               <button
                 type="submit"
-                className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 transition duration-200 cursor-pointer disabled:cursor-not-allowed"
-                disabled={loading}
+                className={`w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 transition duration-200 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50`}
+                disabled={!isEditing}
               >
                 {loading ? "Hesabım yenilənir..." : "Yenilə "}
               </button>
-               <Link
+              <Link
                 to="/change-password"
                 className="text-blue-500 hover:underline text-center"
               >
