@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../../api/axios";
 import { toast } from "react-toastify";
 
 const ResetPassword = () => {
@@ -14,7 +14,7 @@ const ResetPassword = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post("/api/auth/reset-password", {
+      const res = await api.post("/api/auth/reset-password", {
         token,
         newPassword: password,
         confirmPassword: confirmPassword,
