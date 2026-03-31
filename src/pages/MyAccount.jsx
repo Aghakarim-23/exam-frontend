@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import api from "../api/axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -154,12 +153,6 @@ const MyAccount = () => {
               >
                 {loading ? "Hesabım yenilənir..." : "Yenilə "}
               </button>
-              <Link
-                to="/change-password"
-                className="text-blue-500 hover:underline text-center"
-              >
-                Şifrəni dəyişmək üçün linkə daxil olun
-              </Link>
             </div>
           </form>
         </div>

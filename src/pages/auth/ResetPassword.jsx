@@ -24,7 +24,7 @@ const ResetPassword = () => {
       setConfirmPassword("");
       setTimeout(() => {
         navigate("/login");
-      }, 3000);
+      }, 2000);
     } catch (error) {
       toast.error(
         error.response?.data?.message || "Şifrə sıfırlama xətası baş verdi.",
