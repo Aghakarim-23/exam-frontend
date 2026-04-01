@@ -5,15 +5,11 @@ import { GrClose } from "react-icons/gr";
 import { useState } from "react";
 import { FaRegUser } from "react-icons/fa6";
 
-
-
-
 const Header = () => {
   const { user } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const { pathname } = useLocation();
   const isHome = pathname === "/";
-  console.log(isHome)
 
   return (
     <>
@@ -22,33 +18,26 @@ const Header = () => {
           <Link to="/" className="text-2xl font-bold text-gray-900">
             My App
           </Link>
-          <HiOutlineMenu className="h-6 w-6 text-gray-900 md:hidden" 
+          <HiOutlineMenu
+            className="h-6 w-6 text-gray-900 md:hidden"
             onClick={() => setMenuOpen(!menuOpen)}
-          
           />
         </div>
 
         {/*  mobile menu */}
-        <div className={`md:hidden bg-white shadow fixed top-0 left-0 w-full h-screen z-50  transition-transform duration-300 ${menuOpen ? "translate-x-0" : "translate-x-full"}`}>
+        <div
+          className={`md:hidden bg-white shadow fixed top-0 left-0 w-full h-screen z-50  transition-transform duration-300 ${menuOpen ? "translate-x-0" : "translate-x-full"}`}
+        >
           <div className="flex  justify-between items-center max-w-7xl mx-auto h-16 sm:h-18 md:h-20 px-4 sm:px-6 lg:px-8 border-b border-gray-300">
             <Link to="/" className="text-2xl font-bold text-gray-900">
-              My App
+              My App  
             </Link>
-            <GrClose className="h-6 w-6 text-gray-900" 
+            <GrClose
+              className="h-6 w-6 text-gray-900"
               onClick={() => setMenuOpen(!menuOpen)}
-            
             />
-
-
           </div>
-          {user ? (
-            <Link
-              to="/profile"
-              className="block px-4 py-2 rounded-md text-gray-800 hover:bg-gray-100 transition text-center mb-2"
-            >
-              Profil
-            </Link>
-          ) : (
+          {!user && (
             <div className="flex gap-3 px-4 py-2 mt-6">
               <Link
                 to="/login"
@@ -65,6 +54,14 @@ const Header = () => {
             </div>
           )}
           <div className="text-center flex flex-col gap-4 mt-6">
+            {user && (
+              <Link
+                to="/profile"
+                className="block px-4 py-4 text-gray-800 border-b border-gray-300"
+              >
+                Profil{" "}
+              </Link>
+            )}
             <a
               href="#quizs"
               className="block px-4 py-4 text-gray-800 border-b border-gray-300"
@@ -96,34 +93,36 @@ const Header = () => {
           </div>
         </div>
 
-   
         {/* desktop menu */}
-     {isHome && (
-         <nav className="hidden md:flex gap-4 px-4">
-          <a href="#quizs" className="text-gray-700 hover:text-blue-600">
-            Quizlər
-          </a>
-          <a href="#winners" className="text-gray-700 hover:text-blue-600">
-            Qaliblər
-          </a>
-          <a href="#how-it-works" className="text-gray-700 hover:text-blue-600">
-            Necə işləyir ?
-          </a>
-          <a href="#contact" className="text-gray-700 hover:text-blue-600">
-            Əlaqə
-          </a>
-        </nav>
-     )}
+        {isHome && (
+          <nav className="hidden md:flex gap-4 px-4">
+            <a href="#quizs" className="text-gray-700 hover:text-blue-600">
+              Quizlər
+            </a>
+            <a href="#winners" className="text-gray-700 hover:text-blue-600">
+              Qaliblər
+            </a>
+            <a
+              href="#how-it-works"
+              className="text-gray-700 hover:text-blue-600"
+            >
+              Necə işləyir ?
+            </a>
+            <a href="#contact" className="text-gray-700 hover:text-blue-600">
+              Əlaqə
+            </a>
+          </nav>
+        )}
 
         <div className="hidden md:flex gap-4 px-4">
           {user ? (
-              <Link
-                to="/profile"
-                className="px-4 py-2 rounded-md text-gray-800 hover:bg-gray-100 transition flex items-center gap-1"
-              >
-                <FaRegUser className="inline-block mr-1" />
-                <span>{user.name}</span>
-              </Link>
+            <Link
+              to="/profile"
+              className="px-4 py-2 rounded-md text-gray-800 hover:bg-gray-100 transition flex items-center gap-1"
+            >
+              <FaRegUser className="inline-block mr-1" />
+              <span>{user.name}</span>
+            </Link>
           ) : (
             <>
               <Link
