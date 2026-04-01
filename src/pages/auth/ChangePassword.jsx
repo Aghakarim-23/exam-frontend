@@ -1,6 +1,7 @@
 import { useState } from "react";
 import api from "../../api/axios";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const ChangePassword = () => {
   const [formData, setFormData] = useState({
@@ -10,6 +11,7 @@ const ChangePassword = () => {
   });
 
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -33,6 +35,7 @@ const ChangePassword = () => {
 
       toast.success(response.data?.message || "Şifrə uğurla yeniləndi");
       setFormData({ currentPassword: "", newPassword: "", confirmPassword: "" });
+      navigate("/profile");
     } catch (error) {
       toast.error(
         error.response?.data?.message || "Şifrəni yeniləmək mümkün olmadı"
