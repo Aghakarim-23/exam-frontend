@@ -20,14 +20,23 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-      if (!formData.name || !formData.surname || !formData.username || !formData.email || !formData.password) {
+    if (
+      !formData.name ||
+      !formData.surname ||
+      !formData.username ||
+      !formData.email ||
+      !formData.password
+    ) {
       toast.error("Bütün xanaları doldurun");
       return;
     }
     setLoading(true);
     try {
       const response = await api.post("/api/auth/register", formData);
-      toast.success(response.data?.message || "Qeydiyyat uğurlu oldu. Emailinizi təsdiqləyin.");
+      toast.success(
+        response.data?.message ||
+          "Qeydiyyat uğurlu oldu. Emailinizi təsdiqləyin.",
+      );
       setFormData({
         name: "",
         surname: "",
@@ -35,12 +44,12 @@ const Register = () => {
         email: "",
         password: "",
       });
-      setIsOpen(true);
     } catch (error) {
-      toast.error(error.response?.data?.message || "Qeydiyyatdan keçmək mümkün olmadı");
+      toast.error(
+        error.response?.data?.message || "Qeydiyyatdan keçmək mümkün olmadı",
+      );
     } finally {
       setLoading(false);
-      setIsOpen(false);
     }
   };
 
