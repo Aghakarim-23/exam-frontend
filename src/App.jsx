@@ -21,7 +21,9 @@ import DashboardLayout from "./layouts/DashboardLayout";
 import MyAccount from "./pages/MyAccount";
 import Settings from "./pages/Settings";
 import ChangePassword from "./pages/auth/ChangePassword";
-
+import Admin from "./pages/Admin";
+import CreateQuiz from "./pages/CreateQuiz";
+import Quizzes from "./pages/Quizzes";
 
 const App = () => {
   return (
@@ -29,12 +31,15 @@ const App = () => {
 
 
       <Routes>
-        <Route path="/create-question" element={<CreateQuestion />} />
+        <Route path="/create-quiz/:id/question" element={<CreateQuestion />} />
         <Route path="/results" element={<Results />} />
         <Route path="/quiz-page" element={<QuizPage />} />
-        <Route path="/questions" element={<Questions />} />
+        {/* <Route path="/questions" element={<Questions />} /> */}
         <Route path="/topics" element={<Topics />} />
         <Route path="/topic/:slug" element={<Topic />} />
+        <Route path="/create-quiz" element={<CreateQuiz />} />
+        <Route path="/quizzes" element={<Quizzes />} />
+        <Route path="/quiz/:id/questions" element={<Questions />} />
 
           <Route path="/login" element={
           <PublicRoute>
@@ -72,6 +77,7 @@ const App = () => {
               <Route path="/profile" element={<Profile />} />
               <Route path="/my-account" element={<MyAccount />} />
               <Route path="/settings" element={<Settings />} />
+              <Route path="/admin" element={<Admin />} />
             </Route>
         </Route>
 

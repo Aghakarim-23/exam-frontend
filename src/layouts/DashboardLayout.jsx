@@ -2,6 +2,8 @@ import { NavLink, Outlet } from "react-router-dom";
 import { AiOutlineHome } from "react-icons/ai";
 import { FiUser, FiSettings } from "react-icons/fi";
 import { RxDashboard } from "react-icons/rx";
+import { PiBookOpenTextDuotone } from "react-icons/pi";
+
 
 
 const DashboardLayout = () => {
@@ -59,6 +61,18 @@ const DashboardLayout = () => {
         >
           <FiSettings className="text-xl md:mr-2" />
           <span className="hidden md:inline">Tənzimləmələr</span>
+        </NavLink>
+        <NavLink
+          to="/admin"
+          className={({ isActive }) =>
+            `flex flex-col items-center md:flex-row md:items-center 
+     px-3 py-2 rounded-md hover:bg-gray-200 ${
+       isActive ? "bg-gray-300 font-bold" : ""
+     }`
+          }
+        >
+          <PiBookOpenTextDuotone className="text-xl md:mr-2" />
+          <span className="hidden md:inline">Admin</span>
         </NavLink>
       </aside>
 

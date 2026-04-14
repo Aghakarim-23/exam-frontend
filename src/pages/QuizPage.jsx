@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+/* import { useEffect, useState } from "react";
 import QuizTimer from "../components/QuizTimer";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
@@ -78,6 +78,70 @@ const QuizPage = () => {
        )}
       </div>
     </>
+  );
+};
+
+export default QuizPage;
+ */
+
+
+import { useEffect, useState } from "react";
+import api from "../api/axios";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+
+const QuizPage = () => {
+  const [quizzes, setQuizzes] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchQuizzes = async () => {
+      setLoading(true);
+      try {
+        const res = await api.get("/api/quizzes/");
+        setQuizzes(res.data);
+        console.log(res)
+      } catch (error) {
+        console.error(error);
+        toast.error("Failed to load quizzes.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchQuizzes();
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-gray-100 p-6">
+      <h1 className="text-2xl font-bold text-center mb-6">Available Quizzes</h1>
+
+      {loading ? (
+        <div className="flex justify-center items-center h-48">
+          <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
+        </div>
+      ) : quizzes.length === 0 ? (
+        <p className="text-center text-gray-500">No quizzes found. Create one first!</p>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
+          {quizzes.map((quiz) => (
+            <div
+              key={quiz._id}
+              className="bg-white rounded-xl shadow-md p-5 flex flex-col gap-3 hover:shadow-lg transition"
+            >
+              <h2 className="text-lg font-semibold text-gray-800 truncate">{quiz.title}</h2>
+              <p className="text-gray-500 text-sm flex-1 line-clamp-3">{quiz.description}</p>
+              <button
+                onClick={() => navigate(`/quiz/${quiz._id}/create-question`)}
+                className="mt-auto w-full bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white py-2 rounded-md transition cursor-pointer text-sm font-medium"
+              >
+                Create Questions
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   );
 };
 

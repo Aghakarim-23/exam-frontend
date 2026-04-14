@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-// import api from "../api/axios";
+import api from "../api/axios";
+import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const CreateQuestion = () => {
+  const { id } = useParams();
   const [questionFormData, setQuestionFormData] = useState({
     question: "Sual 1",
     optionA: "cavab1 ",
@@ -20,6 +23,8 @@ const CreateQuestion = () => {
     }));
   };
 
+  const navigate = useNavigate();
+
   const handleSubmit = async () => {
     if (
       !questionFormData.question.trim() ||
@@ -35,16 +40,17 @@ const CreateQuestion = () => {
     const payload = {
       questionText: questionFormData.question,
       options: [
-        questionFormData.optionA.trim(),
-        questionFormData.optionB.trim(),
-        questionFormData.optionC.trim(),
-        questionFormData.optionD.trim(),
+        { text: questionFormData.optionA.trim() },
+        { text: questionFormData.optionB.trim() },
+        { text: questionFormData.optionC.trim() },
+        { text: questionFormData.optionD.trim() },
       ],
       correctAnswer: Number(questionFormData.correctAnswer),
+      quizId: id,
     };
 
     try {
-      // await api.post("/api/questions", payload)
+      await api.post("/api/questions", payload)
 
       toast.success("Question submitted successfully!");
       setQuestionFormData({
@@ -56,6 +62,8 @@ const CreateQuestion = () => {
         correctAnswer: "",
       });
       console.log("Payload", payload);
+      navigate(`/quizzes`);
+      
     } catch (error) {
       console.error("Error submitting question:", error);
       toast.error(
