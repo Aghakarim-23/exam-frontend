@@ -14,6 +14,11 @@ const Admin = () => {
       id: 2,
       name: "React",
       description: "UI component library"
+    },
+    {
+      id: 3,
+      name: "Vue.js",
+      description: "Progressive JavaScript framework"
     }
   ];
 
@@ -54,13 +59,23 @@ const Admin = () => {
                       <div className='flex justify-center items-center mx-auto  bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors px-4 py-2 mb-3'>
                         <Link className='flex items-center gap-2' 
                           to={`/create-quiz/${topic.id}/question`}>
-                          <p>Create Quiz</p>
+                          <p>Create Question</p>
                           <FiArrowRight />
                         </Link>
                       </div>
                     </div>
                   ))}
                 </div>
+              </div>
+              
+              {/* Create Quiz Button */}
+              <div>
+                <button className='mt-10 w-full bg-black/80 hover:bg-black/90 active:bg-black/100 text-white py-3 rounded-md transition cursor-pointer text-sm font-medium'>
+                  <Link className='flex items-center justify-center gap-2' to="/create-quiz">
+                    Create New Quiz
+                    <FiArrowRight />
+                  </Link>
+                </button>
               </div>
 
           </div>
