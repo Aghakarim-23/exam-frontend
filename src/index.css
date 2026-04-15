@@ -8,3 +8,17 @@
     @apply overflow-x-hidden;
   }
 }
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-1deg); }
+  50% { transform: rotate(1deg); }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-1deg); }
+  50% { transform: rotate(1deg); }
+}
+
+.wiggle {
+  animation: wiggle 0.2s ease-in-out infinite;
+}

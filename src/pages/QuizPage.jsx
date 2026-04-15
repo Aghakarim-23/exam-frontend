@@ -100,7 +100,7 @@ const QuizPage = () => {
       setLoading(true);
       try {
         const res = await api.get("/api/quizzes/");
-        setQuizzes(res.data);
+        setQuizzes(res.data.quizzes);
         console.log(res)
       } catch (error) {
         console.error(error);

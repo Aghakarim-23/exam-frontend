@@ -1,26 +1,27 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FiArrowRight } from "react-icons/fi";
+import api from '../api/axios';
+import { FaTrash } from 'react-icons/fa';
 
 
 const Admin = () => {
-  const topics = [
-    {
-      id: 1,
-      name: "Next.js",
-      description: "Learn about Next.js features and best practices."
-    },
-    {
-      id: 2,
-      name: "React",
-      description: "UI component library"
-    },
-    {
-      id: 3,
-      name: "Vue.js",
-      description: "Progressive JavaScript framework"
+  const [topics, setTopics] = useState([]);
+  const [deleteMode, setDeleteMode] = useState(false);
+
+useEffect(() => {
+    const fetchQuizzes = async () => {
+    try {
+      const response = await api.get("/api/quizzes");
+      const data = await response.data;
+      setTopics(data.quizzes);
+      console.log("Quizzes:", data.quizzes);
+    } catch (error) {
+      console.error("Error fetching quizzes:", error);
     }
-  ];
+  };
+  fetchQuizzes();
+},[])
 
   return (
     <>
@@ -36,12 +37,16 @@ const Admin = () => {
             {/* Stats */}
               <div className='grid grid-cols-2 gap-4 mt-6'>
                 <div className='bg-white rounded-lg shadow-md p-4 flex flex-col items-center'>
-                  <p className='text-2xl font-bold text-gray-800'>2 </p>
+                  <p className='text-2xl font-bold text-gray-800'>{topics.length}</p>
                   <p className='text-gray-500'>topics</p>
                 </div>
                 <div className='bg-white rounded-lg shadow-md p-4 flex flex-col items-center'>
                   <p className='text-2xl font-bold text-gray-800'>20</p>
                   <p className='text-gray-500'>questions</p>
+                </div>
+                <div className='bg-white rounded-lg shadow-md p-4 flex flex-col items-center hover:cursor-pointer hover:shadow-lg transition'
+                  onClick={() => setDeleteMode(!deleteMode)}>
+                  <FaTrash className='text-red-500'/>
                 </div>
               </div>
 
@@ -50,9 +55,18 @@ const Admin = () => {
                 <h1 className='text-2xl font-bold text-gray-800 mt-6'>Topics</h1>
                 <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-6'>
                   {topics.map((topic) => (
-                    <div className='bg-white rounded-lg shadow-md  flex flex-col gap-4' key={topic.id}>
+                    <div className={`bg-white rounded-lg shadow-md  flex flex-col gap-4 hover:scale-105 transition ${deleteMode ? 'wiggle' : ''}`} key={topic._id}>
                       <div className='p-6 min-h-33 flex flex-col gap-2'>
-                        <h2 className='text-lg font-semibold text-gray-800'>{topic.name}</h2>
+                        <div className='flex justify-between items-center'>
+                          <h1 className='text-lg font-semibold text-gray-800'>{topic.title}</h1>
+                          {deleteMode ? (
+                            <button onClick={() => console.log("Delete topic with ID:", topic._id)} className='text-red-500 hover:text-red-700 transition'>
+                              <FaTrash />
+                            </button>
+                          ) : (
+                            <span className={`text-sm text-white px-2 py-1 rounded-full ${topic.difficulty === 'easy' ? 'bg-green-500' : topic.difficulty === 'medium' ? 'bg-yellow-500' : 'bg-red-500'}`}>{topic.difficulty}</span>
+                          )}
+                        </div>
                         <p className='text-gray-500'>{topic.description}</p>
                       </div>
                       <hr />

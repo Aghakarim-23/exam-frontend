@@ -7,6 +7,9 @@ const CreateQuiz = () => {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
+    duration: "",
+    category: "",
+    difficulty: "",
   });
 
   const handleChange = (e) => {
@@ -19,7 +22,13 @@ const CreateQuiz = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.title.trim() || !formData.description.trim()) {
+    if (
+      !formData.title.trim() ||
+      !formData.description.trim() ||
+      !formData.duration.trim() ||
+      !formData.category.trim() ||
+      !formData.difficulty.trim()
+    ) {
       toast.error("Please fill in all fields!");
       return;
     }
@@ -28,11 +37,14 @@ const CreateQuiz = () => {
       await api.post("/api/quizzes", {
         title: formData.title.trim(),
         description: formData.description.trim(),
+        duration: formData.duration.trim(),
+        category: formData.category.trim(),
+        difficulty: formData.difficulty.trim(),
       });
 
       toast.success("Quiz created successfully!");
-      setFormData({ title: "", description: "" });
-      navigate("/quiz-page");
+      setFormData({ title: "", description: "", duration: "", category: "", difficulty: "" });
+      navigate("/admin/quizzes");
     } catch (error) {
       console.error("Error creating quiz:", error);
       toast.error("Failed to create quiz. Please try again.");
@@ -70,6 +82,49 @@ const CreateQuiz = () => {
             onChange={handleChange}
             value={formData.description}
           />
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <label htmlFor="category">Category:</label>
+          <input
+            type="text"
+            name="category"
+            id="category"
+            className="w-full border border-zinc-300 pl-2 py-2 rounded-md"
+            placeholder="Enter quiz category (e.g., Science, History)"
+            onChange={handleChange}
+            value={formData.category || ""}
+          />
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <label htmlFor="duration">Duration:</label>
+          <input
+            type="number"
+            name="duration"
+            id="duration"
+            className="w-full border border-zinc-300 pl-2 py-2 rounded-md"
+            placeholder="Enter quiz duration (e.g., 30 minutes)"
+            onChange={handleChange}
+            min={1}
+            value={formData.duration}
+          />
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <label htmlFor="difficulty">Difficulty:</label>
+          <select
+            name="difficulty"
+            id="difficulty"
+            className="w-full border border-zinc-300 pl-2 py-2 rounded-md"
+            onChange={handleChange}
+            value={formData.difficulty || ""}
+          >
+            <option value="">Select difficulty</option>
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
         </div>
 
         <button

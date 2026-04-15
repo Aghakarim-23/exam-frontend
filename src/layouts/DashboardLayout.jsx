@@ -63,7 +63,7 @@ const DashboardLayout = () => {
           <span className="hidden md:inline">Tənzimləmələr</span>
         </NavLink>
         <NavLink
-          to="/admin"
+          to="/admin/quizzes"
           className={({ isActive }) =>
             `flex flex-col items-center md:flex-row md:items-center 
      px-3 py-2 rounded-md hover:bg-gray-200 ${
