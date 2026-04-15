@@ -62,7 +62,7 @@ const CreateQuestion = () => {
         correctAnswer: "",
       });
       console.log("Payload", payload);
-      navigate(`/quizzes`);
+      navigate(`/admin/quizzes`);
       
     } catch (error) {
       console.error("Error submitting question:", error);

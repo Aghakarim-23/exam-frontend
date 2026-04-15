@@ -10,6 +10,7 @@ const Admin = () => {
   const [deleteMode, setDeleteMode] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [selectedTopicId, setSelectedTopicId] = useState(null);
+  const [questionsLength, setQuestionsLength] = useState(0);
 
   useEffect(() => {
     const fetchQuizzes = async () => {
@@ -22,6 +23,17 @@ const Admin = () => {
       }
     };
     fetchQuizzes();
+
+    const fetchQuestions = async () => {
+      try {
+        const response = await api.get("/api/questions");
+        const questionsLength = await response.data;
+        setQuestionsLength(questionsLength.length);
+      } catch (error) {
+        console.error("Error fetching questions:", error);
+      }
+    };
+    fetchQuestions();
   }, []);
 
   const handleDeleteTopic = async (id) => {
@@ -57,7 +69,7 @@ const Admin = () => {
               <p className="text-gray-500">topics</p>
             </div>
             <div className="bg-white rounded-lg shadow-md p-4 flex flex-col items-center">
-              <p className="text-2xl font-bold text-gray-800">20</p>
+              <p className="text-2xl font-bold text-gray-800">{questionsLength}</p>
               <p className="text-gray-500">questions</p>
             </div>
             <div
@@ -114,7 +126,7 @@ const Admin = () => {
                     <div className="flex justify-center items-center mx-auto  bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors px-4 py-2 mb-3">
                       <Link
                         className="flex items-center gap-2"
-                        to={`/create-quiz/${topic.id}/question`}
+                        to={`/create-quiz/${topic._id}/question`}
                       >
                         <p>Create Question</p>
                         <FiArrowRight />
