@@ -34,7 +34,7 @@ const App = () => {
         <Route path="/create-quiz/:id/question" element={<CreateQuestion />} />
         <Route path="/results" element={<Results />} />
         <Route path="/quiz-page" element={<QuizPage />} />
-        {/* <Route path="/questions" element={<Questions />} /> */}
+        <Route path="/quizzes/:quizId/questions" element={<Questions />} />
         <Route path="/topics" element={<Topics />} />
         <Route path="/topic/:slug" element={<Topic />} />
         <Route path="/create-quiz" element={<CreateQuiz />} />

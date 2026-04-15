@@ -1,4 +1,5 @@
 import { FaGift, FaBrain, FaTrophy } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   const features = [
@@ -35,7 +36,7 @@ const Hero = () => {
 
       {/* BUTTON */}
       <button className="mt-8 bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 rounded-full text-sm md:text-base font-semibold shadow-md hover:shadow-lg transition">
-        Bu gün oyna
+        <Link to="/quiz-page">Bu gün oyna</Link>
       </button>
 
       {/* CARDS */}

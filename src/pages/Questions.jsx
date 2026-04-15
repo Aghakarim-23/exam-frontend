@@ -4,22 +4,20 @@ import api from "../api/axios";
 import { toast } from "react-toastify";
 
 const Questions = () => {
-  const { id } = useParams();
+  const { quizId } = useParams();
   const navigate = useNavigate();
   const [questions, setQuestions] = useState([]);
   const [quiz, setQuiz] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchQuestions = async () => {
       setLoading(true);
       try {
-        const [questionsRes, quizRes] = await Promise.all([
-          api.get(`/api/questions?quizId=${id}`),
-          api.get(`/api/quizzes/${id}`),
-        ]);
-        setQuestions(questionsRes.data);
-        setQuiz(quizRes.data);
+        const res = await api.get(`/api/quizzes/${quizId}/questions`);
+        setQuestions(res.data.questions);
+        setQuiz(res.data.quiz);
+        console.log(res)
       } catch (error) {
         console.error(error);
         toast.error("Failed to load questions.");
@@ -27,8 +25,8 @@ const Questions = () => {
         setLoading(false);
       }
     };
-    fetchData();
-  }, [id]);
+    fetchQuestions();
+  }, [quizId]);
 
   const optionLabels = ["A", "B", "C", "D"];
 
@@ -104,12 +102,7 @@ const Questions = () => {
               </div>
             ))}
 
-            <button
-              onClick={() => navigate(`/quiz/${id}/create-question`)}
-              className="w-full py-3 rounded-2xl border-2 border-dashed border-blue-300 text-blue-500 hover:bg-blue-50 transition-colors text-sm font-medium"
-            >
-              + Add Question
-            </button>
+      
           </div>
         )}
       </div>
