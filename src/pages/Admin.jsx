@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { FiArrowRight } from "react-icons/fi";
-import api from "../api/axios";
-import { FaCircle, FaTrash } from "react-icons/fa";
+import { FiArrowRight, FiPlus, FiTrash2 } from "react-icons/fi";
+import { MdOutlineQuiz, MdOutlineTopic } from "react-icons/md";
 import { FaCircleXmark } from "react-icons/fa6";
+import api from "../api/axios";
 
 const Admin = () => {
   const [topics, setTopics] = useState([]);
@@ -16,8 +16,7 @@ const Admin = () => {
     const fetchQuizzes = async () => {
       try {
         const response = await api.get("/api/quizzes");
-        const data = await response.data;
-        setTopics(data.quizzes);
+        setTopics(response.data.quizzes);
       } catch (error) {
         console.error("Error fetching quizzes:", error);
       }
@@ -27,8 +26,7 @@ const Admin = () => {
     const fetchQuestions = async () => {
       try {
         const response = await api.get("/api/questions");
-        const questionsLength = await response.data;
-        setQuestionsLength(questionsLength.length);
+        setQuestionsLength(response.data.length);
       } catch (error) {
         console.error("Error fetching questions:", error);
       }
@@ -39,148 +37,184 @@ const Admin = () => {
   const handleDeleteTopic = async (id) => {
     try {
       await api.delete(`/api/quizzes/${id}`);
-      setTopics((prevTopics) => prevTopics.filter((topic) => topic._id !== id));
-      console.log(`Quiz with ID ${id} deleted successfully.`);
+      setTopics((prev) => prev.filter((t) => t._id !== id));
     } catch (error) {
       console.error(`Error deleting quiz with ID ${id}:`, error);
     }
   };
 
+  const difficultyStyles = {
+    easy: "bg-emerald-50 text-emerald-600 border border-emerald-200",
+    medium: "bg-amber-50 text-amber-600 border border-amber-200",
+    hard: "bg-red-50 text-red-500 border border-red-200",
+  };
+
   return (
-    <>
-      <div className="min-h-screen bg-gray-50 px-4 py-10">
-        <div className="max-w-5xl mx-auto">
-          {/* Header */}
-          <div>
-            <h1 className="text-3xl font-bold text-gray-800">
-              Admin Dashboard
-            </h1>
-            <p className="text-gray-500 mt-2">
-              Manage quizzes, users, and settings
-            </p>
+    <div className="min-h-screen bg-slate-50 px-4 py-12">
+      <div className="max-w-5xl mx-auto">
+
+        {/* Page header */}
+        <div className="mb-10">
+          <span className="inline-flex items-center gap-2 bg-blue-50 text-blue-600 text-xs font-medium px-4 py-1.5 rounded-full border border-blue-100 mb-4">
+            <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
+            Admin Panel
+          </span>
+          <h1 className="text-3xl font-bold text-gray-900 tracking-tight">
+            Dashboard
+          </h1>
+          <p className="text-gray-500 mt-1 text-sm">
+            Manage quizzes, questions, and content.
+          </p>
+        </div>
+
+        {/* Stats */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-10">
+          <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm flex items-center gap-4">
+            <div className="p-3 rounded-xl bg-blue-50">
+              <MdOutlineTopic className="text-blue-500 text-2xl" />
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-gray-900">{topics.length}</p>
+              <p className="text-xs text-gray-400 mt-0.5 uppercase tracking-wide">Topics</p>
+            </div>
           </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-2 gap-4 mt-6">
-            <div className="bg-white rounded-lg shadow-md p-4 flex flex-col items-center">
-              <p className="text-2xl font-bold text-gray-800">
-                {topics.length}
-              </p>
-              <p className="text-gray-500">topics</p>
+          <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm flex items-center gap-4">
+            <div className="p-3 rounded-xl bg-purple-50">
+              <MdOutlineQuiz className="text-purple-500 text-2xl" />
             </div>
-            <div className="bg-white rounded-lg shadow-md p-4 flex flex-col items-center">
-              <p className="text-2xl font-bold text-gray-800">{questionsLength}</p>
-              <p className="text-gray-500">questions</p>
+            <div>
+              <p className="text-2xl font-bold text-gray-900">{questionsLength}</p>
+              <p className="text-xs text-gray-400 mt-0.5 uppercase tracking-wide">Questions</p>
             </div>
-            <div
-              className="bg-white rounded-lg shadow-md p-4 flex flex-col items-center hover:cursor-pointer hover:shadow-lg transition"
+          </div>
+
+          <div className="col-span-2 sm:col-span-1">
+            <button
               onClick={() => setDeleteMode(!deleteMode)}
+              className={`w-full h-full min-h-19 rounded-2xl border shadow-sm flex items-center justify-center gap-2 text-sm font-semibold transition-all duration-200 cursor-pointer
+                ${deleteMode
+                  ? "bg-red-500 border-red-500 text-white shadow-red-100 hover:bg-red-600"
+                  : "bg-white border-gray-100 text-gray-500 hover:border-red-200 hover:text-red-500 hover:bg-red-50"
+                }`}
             >
-              <FaTrash className="text-red-500" />
-            </div>
-          </div>
-
-          {/* Cards */}
-          <div>
-            <h1 className="text-2xl font-bold text-gray-800 mt-6">Topics</h1>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-6">
-              {topics.length === 0 ? (
-                <p className="text-gray-500 text-center col-span-full">
-                  No topics found. Create one first!
-                </p>
-              ) : (
-                topics.map((topic) => (
-                  <div
-                    className={`bg-white rounded-lg shadow-md  flex flex-col gap-4 hover:scale-105 transition ${deleteMode ? "wiggle" : ""}`}
-                    key={topic._id}
-                  >
-                    <div className="p-6 min-h-33 flex flex-col gap-2">
-                      <div className="flex justify-between items-center">
-                        <h1 className="text-lg font-semibold text-gray-800">
-                          {topic.title}
-                        </h1>
-                        <div className="flex gap-1">
-                          <span
-                              className={`text-sm text-white px-2 py-1 rounded-full ${topic.difficulty === "easy" ? "bg-green-500" : topic.difficulty === "medium" ? "bg-yellow-500" : "bg-red-500"}`}
-                            >
-                              {topic.difficulty}
-                            </span>
-                          {deleteMode && (
-                            <button
-                              onClick={() => {
-                                setIsOpenModal(true);
-                                setSelectedTopicId(topic._id);
-                              }}
-                              className="text-white-500 hover:text-white transition"
-                            >
-                              <div className="bg-red-600 text-white px-2 py-2 rounded-full">
-                                <FaCircleXmark />
-                              </div>
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                      <p className="text-gray-500">{topic.description}</p>
-                    </div>
-                    <hr />
-                    <div className="flex justify-center items-center mx-auto  bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors px-4 py-2 mb-3">
-                      <Link
-                        className="flex items-center gap-2"
-                        to={`/create-quiz/${topic._id}/question`}
-                      >
-                        <p>Create Question</p>
-                        <FiArrowRight />
-                      </Link>
-                    </div>
-                  </div>
-                ))
-              )}
-              {isOpenModal && (
-                <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
-                  <div className="bg-white p-6 rounded-lg shadow-lg w-[300px]">
-                    <h2 className="text-lg font-semibold mb-4">
-                      Are you sure you want to delete?
-                    </h2>
-
-                    <div className="flex justify-end gap-3">
-                      <button
-                        onClick={() => setIsOpenModal(false)}
-                        className="px-4 py-2 bg-gray-300 rounded"
-                      >
-                        Cancel
-                      </button>
-
-                      <button
-                        onClick={() => {
-                          handleDeleteTopic(selectedTopicId);
-                          setIsOpenModal(false);
-                        }}
-                        className="px-4 py-2 bg-red-500 text-white rounded"
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Create Quiz Button */}
-          <div>
-            <button className="mt-10 w-full bg-black/80 hover:bg-black/90 active:bg-black/100 text-white py-3 rounded-md transition cursor-pointer text-sm font-medium">
-              <Link
-                className="flex items-center justify-center gap-2"
-                to="/create-quiz"
-              >
-                Create New Quiz
-                <FiArrowRight />
-              </Link>
+              <FiTrash2 className="text-lg" />
+              {deleteMode ? "Exit Delete Mode" : "Delete Mode"}
             </button>
           </div>
         </div>
+
+        {/* Topics section */}
+        <div className="flex items-center justify-between mb-5">
+          <h2 className="text-xl font-bold text-gray-900">Topics</h2>
+          <span className="text-xs text-gray-400 bg-gray-100 px-3 py-1 rounded-full">
+            {topics.length} total
+          </span>
+        </div>
+
+        {topics.length === 0 ? (
+          <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-12 text-center">
+            <MdOutlineTopic className="text-4xl text-gray-300 mx-auto mb-3" />
+            <p className="text-gray-400 text-sm">No topics yet. Create one below!</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {topics.map((topic) => (
+              <div
+                key={topic._id}
+                className={`bg-white border border-gray-100 rounded-2xl shadow-sm flex flex-col transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 ${deleteMode ? "wiggle" : ""}`}
+              >
+                <div className="p-5 flex-1">
+                  <div className="flex items-start justify-between gap-2 mb-3">
+                    <h3 className="font-semibold text-gray-800 text-base leading-snug">
+                      {topic.title}
+                    </h3>
+                    <div className="flex items-center gap-1.5 shrink-0">
+                      <span
+                        className={`text-xs font-medium px-2.5 py-0.5 rounded-full capitalize ${
+                          difficultyStyles[topic.difficulty] ?? "bg-gray-100 text-gray-500"
+                        }`}
+                      >
+                        {topic.difficulty}
+                      </span>
+                      {deleteMode && (
+                        <button
+                          onClick={() => {
+                            setIsOpenModal(true);
+                            setSelectedTopicId(topic._id);
+                          }}
+                          className="text-red-400 hover:text-red-600 transition-colors"
+                        >
+                          <FaCircleXmark className="text-lg" />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                  <p className="text-gray-400 text-sm leading-relaxed line-clamp-2">
+                    {topic.description}
+                  </p>
+                </div>
+
+                <div className="px-5 pb-5">
+                  <Link
+                    to={`/create-quiz/${topic._id}/question`}
+                    className="flex items-center justify-center gap-2 w-full bg-blue-500 hover:bg-blue-600 active:scale-95 text-white text-sm font-semibold py-2.5 rounded-xl transition-all duration-200 shadow-sm hover:shadow-blue-200 hover:shadow-md"
+                  >
+                    Create Question
+                    <FiArrowRight />
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Create Quiz CTA */}
+        <div className="mt-8">
+          <Link
+            to="/create-quiz"
+            className="flex items-center justify-center gap-2 w-full bg-gray-900 hover:bg-gray-800 active:scale-[0.99] text-white py-3.5 rounded-2xl text-sm font-semibold transition-all duration-200 shadow-sm"
+          >
+            <FiPlus className="text-base" />
+            Create New Quiz
+          </Link>
+        </div>
       </div>
-    </>
+
+      {/* Delete confirmation modal */}
+      {isOpenModal && (
+        <div className="fixed inset-0 bg-black/30 backdrop-blur-[2px] flex items-center justify-center z-50 px-4">
+          <div className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-sm">
+            <div className="mb-1 flex items-center justify-center w-12 h-12 rounded-full bg-red-50 mx-auto">
+              <FiTrash2 className="text-red-500 text-xl" />
+            </div>
+            <h2 className="text-gray-900 font-semibold text-center mt-3 mb-1">
+              Delete this topic?
+            </h2>
+            <p className="text-gray-400 text-sm text-center mb-6">
+              This action cannot be undone.
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setIsOpenModal(false)}
+                className="flex-1 py-2.5 rounded-xl text-sm font-medium text-gray-600 border border-gray-200 hover:bg-gray-50 transition-colors cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  handleDeleteTopic(selectedTopicId);
+                  setIsOpenModal(false);
+                }}
+                className="flex-1 py-2.5 rounded-xl text-sm font-semibold text-white bg-red-500 hover:bg-red-600 transition-colors cursor-pointer"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 
