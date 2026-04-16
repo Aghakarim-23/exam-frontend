@@ -7,11 +7,11 @@ import { useParams } from "react-router-dom";
 const CreateQuestion = () => {
   const { id } = useParams();
   const [questionFormData, setQuestionFormData] = useState({
-    question: "Sual 1",
-    optionA: "cavab1 ",
-    optionB: "cavab2 ",
-    optionC: "cavab3 ",
-    optionD: "cavab4 ",
+    question: "",
+    optionA: "",
+    optionB: "",
+    optionC: "",
+    optionD: "",
     correctAnswer: "",
   });
 
