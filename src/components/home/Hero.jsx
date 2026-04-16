@@ -89,12 +89,12 @@ const Hero = () => {
         >
           Bu gün oyna →
         </Link>
-        <Link
+       {/*  <Link
           to="/leaderboard"
           className="text-gray-500 hover:text-gray-800 text-sm font-medium border border-gray-200 hover:border-gray-300 px-6 py-3 rounded-xl transition-all duration-200 bg-white hover:bg-gray-50"
         >
           Liderbordu gör
-        </Link>
+        </Link> */}
       </div>
 
       {/* cards */}
