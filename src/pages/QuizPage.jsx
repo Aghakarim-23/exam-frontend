@@ -4,10 +4,18 @@ import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { FiClock, FiTag, FiZap, FiBookOpen, FiAward } from "react-icons/fi";
 import QuizSkeleton from "../components/home/QuizSkeleton";
-
+import useAuth from "../hooks/useAuth";
 const QuizPage = () => {
   const [quizzes, setQuizzes] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { user } = useAuth()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if(!user) {
+      navigate("/login")
+    } 
+  },[])
 
   useEffect(() => {
     const fetchQuizzes = async () => {
@@ -112,7 +120,6 @@ const QuizPage = () => {
                       <h2 className="text-base font-semibold text-gray-800 leading-snug group-hover:text-indigo-600 transition-colors line-clamp-2">
                         {quiz.title}
                       </h2>
-                  
                     </div>
 
                     {/* description */}
