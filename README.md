@@ -8,18 +8,12 @@ A full-stack quiz application built with **React**, **Node.js**, **Express**, an
 
 | | Link |
 |---|---|
-| **Frontend** | [https://your-app.netlify.app](https://your-app.netlify.app) |
-| **Backend API** | [https://your-api.onrender.com](https://your-api.onrender.com) |
+| **Frontend** | [https://agas-exam-app.netlify.app/](https://agas-exam-app.netlify.app/) |
+| **Backend API** | [https://exam-backend-tv3e.onrender.com/](https://exam-backend-tv3e.onrender.com/) |
 
-> Replace the links above with your actual deployment URLs.
-
----
-
-## 📸 Screenshots
-
-> Add screenshots of the Home, Quiz, Profile, and Leaderboard pages here.
 
 ---
+
 
 ## ✨ Features
 
@@ -127,71 +121,6 @@ exam-generator/
 - A **MongoDB** database (local or [MongoDB Atlas](https://www.mongodb.com/atlas))
 - A **Brevo** (formerly Sendinblue) account for email — or any SMTP provider
 
----
-
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/your-username/exam-generator.git
-cd exam-generator
-```
-
----
-
-### 2. Set up the Backend
-
-```bash
-cd server
-npm install
-```
-
-Create a `.env` file inside the `server/` folder:
-
-```env
-PORT=8001
-MONGO_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/quiz_app
-
-JWT_SECRET=your_jwt_secret_here
-EMAIL_SECRET=your_email_secret_here
-
-CLIENT_URL=http://localhost:5173
-
-SMTP_HOST=smtp-relay.brevo.com
-SMTP_PORT=587
-SMTP_USER=your_brevo_smtp_user
-SMTP_PASS=your_brevo_smtp_password
-```
-
-Start the backend:
-
-```bash
-npm run dev
-```
-
-The API will run on `http://localhost:8001`.
-
----
-
-### 3. Set up the Frontend
-
-```bash
-cd ../client
-npm install
-```
-
-Create a `.env` file inside the `client/` folder:
-
-```env
-VITE_API_URL=http://localhost:8001
-```
-
-Start the frontend:
-
-```bash
-npm run dev
-```
-
-The app will open at `http://localhost:5173`.
 
 ---
 
