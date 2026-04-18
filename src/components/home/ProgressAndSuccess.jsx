@@ -1,93 +1,96 @@
 import { FaRegUser } from "react-icons/fa";
-import { AiOutlineQuestionCircle, AiFillStar } from "react-icons/ai";
+import { AiOutlineQuestionCircle } from "react-icons/ai";
 import { MdCategory } from "react-icons/md";
 import CountUp from "react-countup";
 import { useInView } from "react-intersection-observer";
 
-const ProgressAndSuccess = () => {
-  const cards = [
-    {
-      title: "İstifadəçilər",
-      desc: "Platformamızda aktiv istifadəçilərin ümumi sayı.",
-      icon: <FaRegUser size={26} className="text-blue-500" />,
-      value: 42,
-      img: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f",
-    },
-    {
-      title: "Ümumi suallar",
-      desc: "İstifadəçilər tərəfindən yaradılmış sualların sayı.",
-      icon: <AiOutlineQuestionCircle size={26} className="text-green-500" />,
-      value: 245,
-      img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40",
-    },
-    {
-      title: "Kateqoriyalar",
-      desc: "Mövzulara görə bölünmüş kateqoriyalar.",
-      icon: <MdCategory size={26} className="text-yellow-500" />,
-      value: 12,
-      img: "https://images.unsplash.com/photo-1519389950473-47ba0277781c",
-    },
-  /*   {
-      title: "Orta reytinq",
-      desc: "İstifadəçilərin platformaya verdiyi orta qiymət.",
-      icon: <AiFillStar size={26} className="text-orange-500" />,
-      value: 4.5,
-      img: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d",
-    }, */
-  ];
+const cards = [
+  {
+    title: "İstifadəçilər",
+    desc: "Platformamızda aktiv istifadəçilərin ümumi sayı.",
+    icon: <FaRegUser size={22} className="text-blue-500" />,
+    iconBg: "bg-blue-50",
+    value: 42,
+    suffix: "+",
+    accent: "text-blue-500",
+    border: "hover:border-blue-200",
+    glow: "hover:shadow-blue-100",
+  },
+  {
+    title: "Ümumi suallar",
+    desc: "İstifadəçilər tərəfindən yaradılmış sualların sayı.",
+    icon: <AiOutlineQuestionCircle size={22} className="text-green-500" />,
+    iconBg: "bg-green-50",
+    value: 245,
+    suffix: "+",
+    accent: "text-green-500",
+    border: "hover:border-green-200",
+    glow: "hover:shadow-green-100",
+  },
+  {
+    title: "Kateqoriyalar",
+    desc: "Mövzulara görə bölünmüş kateqoriyalar.",
+    icon: <MdCategory size={22} className="text-yellow-500" />,
+    iconBg: "bg-yellow-50",
+    value: 12,
+    suffix: "",
+    accent: "text-yellow-500",
+    border: "hover:border-yellow-200",
+    glow: "hover:shadow-yellow-100",
+  },
+];
 
-  const { ref, inView } = useInView({
-    triggerOnce: true,
-    threshold: 0.3,
-  });
+const ProgressAndSuccess = () => {
+  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.3 });
 
   return (
-    <section className="min-h-screen flex flex-col justify-center py-16 px-4 bg-gray-50" id="how-it-works">
-      <div className="text-center max-w-2xl mx-auto mb-12">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
-          Ümumi Performans və İrəliləyiş
-        </h2>
-        <p className="text-gray-600 mt-4">
-          Platformamızın əsas göstəriciləri və istifadəçi aktivliyi haqqında
-          ümumi məlumat.
-        </p>
-      </div>
+    <section id="how-it-works" className="bg-slate-50 py-24 px-4">
+      <div className="max-w-5xl mx-auto">
 
-      <div
-        ref={ref}
-        className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto "
-      >
-        {cards.map((card, idx) => (
-          <div
-            key={idx}
-            className="bg-white rounded-2xl overflow-hidden shadow-md 
-            hover:shadow-xl transition duration-300 hover:scale-105"
-          >
-            <div className="h-40 overflow-hidden">
-              <img
-                src={card.img}
-                alt={card.title}
-                className="w-full h-full object-cover hover:scale-110 transition duration-300"
-              />
-            </div>
+        {/* Header */}
+        <div className="text-center mb-14">
+          <span className="inline-flex items-center gap-2 bg-blue-50 text-blue-600 text-xs font-medium px-4 py-1.5 rounded-full border border-blue-100 mb-6">
+            <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
+            Yenilənən statistika
+          </span>
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 tracking-tight mb-4">
+            Ümumi <span className="text-blue-500">performans</span>
+          </h2>
+          <p className="text-gray-500 text-sm md:text-base leading-relaxed max-w-md mx-auto">
+            Platformamızın əsas göstəriciləri və istifadəçi aktivliyi haqqında ümumi məlumat.
+          </p>
+        </div>
 
-            <div className="p-5 text-center flex flex-col items-center">
-              <div className="bg-gray-100 p-3 rounded-full mb-3">
+        {/* Cards */}
+        <div ref={ref} className="grid gap-5 md:grid-cols-3">
+          {cards.map((card, idx) => (
+            <div
+              key={idx}
+              className={`bg-white border border-gray-100 rounded-2xl p-7 shadow-sm
+                transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02]
+                hover:shadow-xl ${card.border} ${card.glow}`}
+            >
+              {/* Icon */}
+              <div className={`w-11 h-11 ${card.iconBg} rounded-xl flex items-center justify-center mb-5`}>
                 {card.icon}
               </div>
 
-              <h3 className="text-lg font-semibold text-gray-800">
-                {card.title}
-              </h3>
-
-              <p className="text-gray-600 text-sm mt-2">{card.desc}</p>
-
-              <p className="text-2xl font-bold mt-3 text-blue-600">
-                {inView ? <CountUp end={card.value} duration={2} /> : 0}
+              {/* Count */}
+              <p className={`text-4xl font-bold ${card.accent} mb-1`}>
+                {inView ? (
+                  <CountUp end={card.value} duration={2} suffix={card.suffix} />
+                ) : (
+                  `0${card.suffix}`
+                )}
               </p>
+
+              {/* Title & desc */}
+              <h3 className="font-semibold text-gray-800 text-base mb-1">{card.title}</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">{card.desc}</p>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
+
       </div>
     </section>
   );
