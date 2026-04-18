@@ -6,7 +6,7 @@ import { useState } from "react";
 import { FiUser } from "react-icons/fi";
 
 const NAV_LINKS = [
-  { href: "#quizs", label: "Quizlər" },
+  // { href: "#quizs", label: "Quizlər" },
   { href: "#winners", label: "Qaliblər" },
   { href: "#how-it-works", label: "Necə işləyir?" },
   { href: "#contact", label: "Əlaqə" },
