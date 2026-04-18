@@ -60,10 +60,10 @@ const Admin = () => {
             Admin Panel
           </span>
           <h1 className="text-3xl font-bold text-gray-900 tracking-tight">
-            Dashboard
+            İdarəetmə paneli
           </h1>
           <p className="text-gray-500 mt-1 text-sm">
-            Manage quizzes, questions, and content.
+            Quizləri idarə et, yeni quiz və suallar yarat
           </p>
         </div>
 
@@ -75,7 +75,7 @@ const Admin = () => {
             </div>
             <div>
               <p className="text-2xl font-bold text-gray-900">{topics.length}</p>
-              <p className="text-xs text-gray-400 mt-0.5 uppercase tracking-wide">Topics</p>
+              <p className="text-xs text-gray-400 mt-0.5 uppercase tracking-wide">Quiz</p>
             </div>
           </div>
 
@@ -85,7 +85,7 @@ const Admin = () => {
             </div>
             <div>
               <p className="text-2xl font-bold text-gray-900">{questionsLength}</p>
-              <p className="text-xs text-gray-400 mt-0.5 uppercase tracking-wide">Questions</p>
+              <p className="text-xs text-gray-400 mt-0.5 uppercase tracking-wide">Sual</p>
             </div>
           </div>
 
@@ -99,14 +99,14 @@ const Admin = () => {
                 }`}
             >
               <FiTrash2 className="text-lg" />
-              {deleteMode ? "Exit Delete Mode" : "Delete Mode"}
+              {deleteMode ? "Silmə rejimindən çıxış" : "Silmə rejimi"}
             </button>
           </div>
         </div>
 
         {/* Topics section */}
         <div className="flex items-center justify-between mb-5">
-          <h2 className="text-xl font-bold text-gray-900">Topics</h2>
+          <h2 className="text-xl font-bold text-gray-900">Quizlər</h2>
           <span className="text-xs text-gray-400 bg-gray-100 px-3 py-1 rounded-full">
             {topics.length} total
           </span>
@@ -160,7 +160,7 @@ const Admin = () => {
                     to={`/create-quiz/${topic._id}/question`}
                     className="flex items-center justify-center gap-2 w-full bg-blue-500 hover:bg-blue-600 active:scale-95 text-white text-sm font-semibold py-2.5 rounded-xl transition-all duration-200 shadow-sm hover:shadow-blue-200 hover:shadow-md"
                   >
-                    Create Question
+                    Sual yaratmaq
                     <FiArrowRight />
                   </Link>
                 </div>
@@ -176,7 +176,7 @@ const Admin = () => {
             className="flex items-center justify-center gap-2 w-full bg-gray-900 hover:bg-gray-800 active:scale-[0.99] text-white py-3.5 rounded-2xl text-sm font-semibold transition-all duration-200 shadow-sm"
           >
             <FiPlus className="text-base" />
-            Create New Quiz
+            Yeni Quiz yaratmaq
           </Link>
         </div>
       </div>

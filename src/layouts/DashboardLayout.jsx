@@ -34,7 +34,7 @@ const DashboardLayout = () => {
           }
         >
           <RxDashboard className="text-xl md:mr-2" />
-          <span className="hidden md:inline">İdarəetmə paneli</span>
+          <span className="hidden md:inline">İstifadəçi paneli</span>
         </NavLink>
 
         <NavLink

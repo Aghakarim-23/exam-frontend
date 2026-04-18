@@ -38,22 +38,40 @@ const StatCard = ({ icon, label, value, accent }) => {
 
 const Profile = () => {
   const [user, setUser] = useState(null);
+  const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchUser = async () => {
+    const fetchData = async () => {
       try {
-        const res = await api.get("/api/auth/me");
-        setUser(res.data.user);
+        const [userRes, resultsRes] = await Promise.all([
+          api.get("/api/auth/me"),
+          api.get("/api/results/me"),
+        ]);
+        setUser(userRes.data.user);
+        setResults(resultsRes.data.results || []);
       } catch (error) {
         console.error("Xəta:", error);
+      } finally {
+        setLoading(false);
       }
     };
-    fetchUser();
+    fetchData();
   }, []);
 
-  if (!user) return <Spinner />;
+  if (loading) return <Spinner />;
 
-  const rank = getRank(user.score || 0);
+  const totalScore = results.reduce((sum, r) => sum + (r.score || 0), 0);
+  const totalCorrect = results.reduce(
+    (sum, r) => sum + (r.answers?.filter((a) => a.isCorrect).length || 0),
+    0
+  );
+  const lastResult = results[0];
+  const lastQuizLabel = lastResult
+    ? `${lastResult.quiz?.title || "Quiz"} — ${dayjs(lastResult.createdAt).format("DD MMMM YYYY")}`
+    : null;
+
+  const rank = getRank(totalScore);
 
   return (
     <div className="min-h-screen bg-slate-50 px-4 py-12">
@@ -100,7 +118,7 @@ const Profile = () => {
           </div>
           <div>
             <p className="font-semibold text-gray-800 text-sm">Sənin rütbən</p>
-            <p className="text-gray-400 text-xs mt-0.5">Score-na əsasən təyin olunur</p>
+            <p className="text-gray-400 text-xs mt-0.5">Toplam {totalScore} xal əsasında</p>
           </div>
           <div className="ml-auto">
             <span className={`text-xs font-semibold px-3 py-1.5 rounded-full border ${rank.bg} ${rank.border} ${rank.color}`}>
@@ -113,20 +131,20 @@ const Profile = () => {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <StatCard
             icon={<FiStar className="text-xl" />}
-            label="Ümumi score"
-            value={user.score || 0}
+            label="Ümumi xallarım"
+            value={totalScore}
             accent="blue"
           />
           <StatCard
             icon={<MdOutlineQuiz className="text-xl" />}
             label="İştirak"
-            value={user.quizzes || 0}
+            value={results.length}
             accent="purple"
           />
           <StatCard
             icon={<FiCheckCircle className="text-xl" />}
             label="Düzgün cavablar"
-            value={user.correctAnswers || 0}
+            value={totalCorrect}
             accent="emerald"
           />
         </div>
@@ -143,7 +161,7 @@ const Profile = () => {
           <div className="flex items-center justify-between py-3 border-b border-gray-50">
             <span className="text-sm text-gray-500">Son yarış</span>
             <span className="text-sm font-medium text-gray-800">
-              {user.lastQuiz || "Məlumat yoxdur"}
+              {lastQuizLabel || "Məlumat yoxdur"}
             </span>
           </div>
 
