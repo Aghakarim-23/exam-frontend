@@ -31,9 +31,9 @@ const Header = () => {
             className="flex items-center gap-2 text-xl font-bold text-gray-900 tracking-tight"
           >
             <span className="w-7 h-7 rounded-lg bg-blue-600 flex items-center justify-center">
-              <span className="text-white text-sm font-black">E</span>
+              <span className="text-white text-sm font-black">Q</span>
             </span>
-            ExamGen
+            Quiz App
           </Link>
 
           {/* Desktop nav */}
@@ -114,9 +114,9 @@ const Header = () => {
             className="flex items-center gap-2 text-lg font-bold text-gray-900"
           >
             <span className="w-6 h-6 rounded-md bg-blue-600 flex items-center justify-center">
-              <span className="text-white text-xs font-black">E</span>
+              <span className="text-white text-xs font-black">Q</span>
             </span>
-            ExamGen
+            Quiz App
           </Link>
           <button
             onClick={closeMenu}
