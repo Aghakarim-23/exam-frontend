@@ -67,10 +67,10 @@ const Home = () => {
   return (
     <>
       <Hero/>
-      <QuizTypes/>
+      {/* <QuizTypes/> */}
       <QuizWinners/>
-      <HowItWorks/>
       <ProgressAndSuccess/>
+      <HowItWorks/>
       <OurMobileApp/>
       <Contact/>
     </>

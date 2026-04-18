@@ -8,7 +8,7 @@ import { FiUser } from "react-icons/fi";
 const NAV_LINKS = [
   // { href: "#quizs", label: "Quizlər" },
   { href: "#winners", label: "Qaliblər" },
-  { href: "#how-it-works", label: "Necə işləyir?" },
+  { href: "#how-it-works", label: "Statistika" },
   { href: "#contact", label: "Əlaqə" },
 ];
 
