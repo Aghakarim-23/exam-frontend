@@ -1,10 +1,18 @@
 import { FaInstagram, FaLinkedin, FaFacebook } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
+  const NAV_LINKS = [
+    // { href: "#quizs", label: "Quizlər" },
+    { href: "/", label: "Ana səhifə" },
+    { href: "#winners", label: "Qaliblər" },
+    { href: "#how-it-works", label: "Statistika" },
+    { href: "#contact", label: "Əlaqə" },
+  ];
+
   return (
-    <footer className="bg-gray-900 text-gray-300 py-10 ">
+    <footer className="bg-gray-900 text-gray-300 pt-10 ">
       <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-8">
-        
         <div>
           <h2 className="text-white text-xl font-bold mb-3">QuizApp</h2>
           <p className="text-sm text-gray-400">
@@ -16,12 +24,11 @@ const Footer = () => {
         <div>
           <h3 className="text-white font-semibold mb-3">Sürətli Keçidlər</h3>
           <ul className="space-y-2 text-sm">
-            <li className="hover:text-white cursor-pointer">Ana səhifə</li>
-            <li className="hover:text-white cursor-pointer">Quizlər</li>
-            <li className="hover:text-white cursor-pointer">
-              Liderlər cədvəli
-            </li>
-            <li className="hover:text-white cursor-pointer">Əlaqə</li>
+            {NAV_LINKS.map((link, index) => (
+              <li className="hover:text-white cursor-pointer" key={index}>
+                <Link to={`${link.href}`}>{link.label}</Link>
+              </li>
+            ))}
           </ul>
         </div>
 
@@ -68,7 +75,7 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="border-t border-gray-700 mt-10 pt-5 text-center text-sm text-gray-500">
+      <div className="flex justify-center h-16 items-center border-t border-gray-700 mt-10  text-center text-sm text-gray-500">
         © {new Date().getFullYear()} QuizApp. Bütün hüquqlar qorunur.
       </div>
     </footer>

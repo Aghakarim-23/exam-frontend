@@ -27,13 +27,13 @@ const ProgressAndSuccess = () => {
       value: 12,
       img: "https://images.unsplash.com/photo-1519389950473-47ba0277781c",
     },
-    {
+  /*   {
       title: "Orta reytinq",
       desc: "İstifadəçilərin platformaya verdiyi orta qiymət.",
       icon: <AiFillStar size={26} className="text-orange-500" />,
       value: 4.5,
       img: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d",
-    },
+    }, */
   ];
 
   const { ref, inView } = useInView({
@@ -42,7 +42,7 @@ const ProgressAndSuccess = () => {
   });
 
   return (
-    <section className="py-16 px-4 bg-gray-50" id="how-it-works">
+    <section className="min-h-screen flex flex-col justify-center py-16 px-4 bg-gray-50" id="how-it-works">
       <div className="text-center max-w-2xl mx-auto mb-12">
         <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
           Ümumi Performans və İrəliləyiş
@@ -55,7 +55,7 @@ const ProgressAndSuccess = () => {
 
       <div
         ref={ref}
-        className="grid gap-8 md:grid-cols-2 lg:grid-cols-4 max-w-6xl mx-auto"
+        className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto "
       >
         {cards.map((card, idx) => (
           <div

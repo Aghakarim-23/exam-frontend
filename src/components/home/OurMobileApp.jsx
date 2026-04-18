@@ -2,9 +2,9 @@ import { FaApple, FaGooglePlay } from "react-icons/fa";
 
 const OurMobileApp = () => {
   return (
-    <section className="min-h-[90vh] bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 flex flex-col md:flex-row items-center justify-center px-6 md:px-20 py-16 text-white relative overflow-hidden">
+    <section className="  min-h-[90vh] bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 flex flex-col md:flex-row md:gap-10 items-center justify-center px-6 md:px-20 py-16 text-white relative overflow-hidden">
       
-      <div className="md:w-1/2 flex flex-col items-start mb-12 md:mb-0">
+      <div className=" flex flex-col items-start mb-12 md:mb-0">
         <h2 className="text-3xl md:text-5xl font-bold mb-4">
           Bizim Mobil Tətbiq ilə Tanış Ol
         </h2>
@@ -23,7 +23,7 @@ const OurMobileApp = () => {
         </div>
       </div>
 
-      <div className="md:w-1/2 flex justify-center items-center">
+      <div className=" flex justify-center items-center">
         <div className="w-64 h-128 bg-gray-200 rounded-3xl shadow-xl flex items-center justify-center text-gray-500 text-xl text-center">
           Dizayn ekranı Mockup burada olacaq
         </div>
