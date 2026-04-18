@@ -1,39 +1,41 @@
+import { useEffect, useState } from "react";
 import { FaRegUser } from "react-icons/fa";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
-import { MdCategory } from "react-icons/md";
+import { MdQuiz } from "react-icons/md";
 import CountUp from "react-countup";
 import { useInView } from "react-intersection-observer";
+import api from "../../api/axios";
 
-const cards = [
+const CARD_META = [
   {
+    key: "userCount",
     title: "İstifadəçilər",
     desc: "Platformamızda aktiv istifadəçilərin ümumi sayı.",
     icon: <FaRegUser size={22} className="text-blue-500" />,
     iconBg: "bg-blue-50",
-    value: 42,
     suffix: "+",
     accent: "text-blue-500",
     border: "hover:border-blue-200",
     glow: "hover:shadow-blue-100",
   },
   {
+    key: "questionCount",
     title: "Ümumi suallar",
-    desc: "İstifadəçilər tərəfindən yaradılmış sualların sayı.",
+    desc: "Platformamızda mövcud olan sualların sayı.",
     icon: <AiOutlineQuestionCircle size={22} className="text-green-500" />,
     iconBg: "bg-green-50",
-    value: 245,
     suffix: "+",
     accent: "text-green-500",
     border: "hover:border-green-200",
     glow: "hover:shadow-green-100",
   },
   {
-    title: "Kateqoriyalar",
-    desc: "Mövzulara görə bölünmüş kateqoriyalar.",
-    icon: <MdCategory size={22} className="text-yellow-500" />,
+    key: "quizCount",
+    title: "Testlər",
+    desc: "Platformada mövcud olan quizlərin ümumi sayı.",
+    icon: <MdQuiz size={22} className="text-yellow-500" />,
     iconBg: "bg-yellow-50",
-    value: 12,
-    suffix: "",
+    suffix: "+",
     accent: "text-yellow-500",
     border: "hover:border-yellow-200",
     glow: "hover:shadow-yellow-100",
@@ -42,6 +44,20 @@ const cards = [
 
 const ProgressAndSuccess = () => {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.3 });
+  const [stats, setStats] = useState({ userCount: 0, questionCount: 0, quizCount: 0 });
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const res = await api.get("/api/stats");
+        setStats(res.data);
+      } catch (error) {
+        console.error("Stats fetch failed:", error);
+      }
+    };
+
+    fetchStats();
+  }, []);
 
   return (
     <section id="how-it-works" className="bg-slate-50 py-24 px-4">
@@ -63,28 +79,25 @@ const ProgressAndSuccess = () => {
 
         {/* Cards */}
         <div ref={ref} className="grid gap-5 md:grid-cols-3">
-          {cards.map((card, idx) => (
+          {CARD_META.map((card) => (
             <div
-              key={idx}
+              key={card.key}
               className={`bg-white border border-gray-100 rounded-2xl p-7 shadow-sm
                 transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02]
                 hover:shadow-xl ${card.border} ${card.glow}`}
             >
-              {/* Icon */}
               <div className={`w-11 h-11 ${card.iconBg} rounded-xl flex items-center justify-center mb-5`}>
                 {card.icon}
               </div>
 
-              {/* Count */}
               <p className={`text-4xl font-bold ${card.accent} mb-1`}>
                 {inView ? (
-                  <CountUp end={card.value} duration={2} suffix={card.suffix} />
+                  <CountUp end={stats[card.key]} duration={2} suffix={card.suffix} />
                 ) : (
                   `0${card.suffix}`
                 )}
               </p>
 
-              {/* Title & desc */}
               <h3 className="font-semibold text-gray-800 text-base mb-1">{card.title}</h3>
               <p className="text-gray-400 text-sm leading-relaxed">{card.desc}</p>
             </div>
