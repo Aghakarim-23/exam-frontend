@@ -70,7 +70,7 @@ const Home = () => {
       {/* <QuizTypes/> */}
       <QuizWinners/>
       <ProgressAndSuccess/>
-      <HowItWorks/>
+      {/* <HowItWorks/> */}
       <OurMobileApp/>
       <Contact/>
     </>
