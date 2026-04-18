@@ -3,175 +3,199 @@ import api from "../api/axios";
 import Spinner from "../components/shared/Spinner";
 import dayjs from "dayjs";
 import "dayjs/locale/az";
-import useAuth from "../hooks/useAuth";
-import { FiUser, FiStar, FiAward, FiCheckCircle, FiActivity, FiCalendar } from "react-icons/fi";
+import { FiUser, FiStar, FiAward, FiCheckCircle, FiActivity, FiCalendar, FiZap } from "react-icons/fi";
 import { MdOutlineQuiz } from "react-icons/md";
 
 dayjs.locale("az");
 
-const getRank = (score) => {
-  if (score < 100) return { label: "Bürünc", color: "text-amber-600", bg: "bg-amber-50", border: "border-amber-200" };
-  if (score < 300) return { label: "Gümüş", color: "text-slate-500", bg: "bg-slate-50", border: "border-slate-200" };
-  return { label: "Qızıl", color: "text-yellow-500", bg: "bg-yellow-50", border: "border-yellow-200" };
+const RANKS = [
+  { label: "Bürünc", min: 0,   max: 99,   color: "text-amber-600",  bg: "bg-amber-50",  border: "border-amber-200",  bar: "bg-amber-400" },
+  { label: "Gümüş", min: 100,  max: 299,  color: "text-slate-500",  bg: "bg-slate-100", border: "border-slate-300",  bar: "bg-slate-400" },
+  { label: "Qızıl", min: 300,  max: 9999, color: "text-yellow-500", bg: "bg-yellow-50", border: "border-yellow-200", bar: "bg-yellow-400" },
+];
+
+const getRank = (score) =>
+  RANKS.find((r) => score >= r.min && score <= r.max) ?? RANKS[0];
+
+const getRankProgress = (score) => {
+  if (score >= 300) return { pct: 100, next: null };
+  if (score >= 100) return { pct: Math.round(((score - 100) / 200) * 100), next: "Qızıl", needed: 300 - score };
+  return { pct: Math.round((score / 100) * 100), next: "Gümüş", needed: 100 - score };
 };
 
 const StatCard = ({ icon, label, value, accent }) => {
-  const accents = {
-    blue: { icon: "bg-blue-50 text-blue-500", value: "text-blue-600" },
-    purple: { icon: "bg-purple-50 text-purple-500", value: "text-purple-600" },
-    emerald: { icon: "bg-emerald-50 text-emerald-500", value: "text-emerald-600" },
+  const styles = {
+    blue:    { wrap: "from-blue-50 to-blue-100/60 border-blue-100",    icon: "bg-blue-500",    val: "text-blue-700"    },
+    purple:  { wrap: "from-purple-50 to-purple-100/60 border-purple-100", icon: "bg-purple-500",  val: "text-purple-700"  },
+    emerald: { wrap: "from-emerald-50 to-emerald-100/60 border-emerald-100", icon: "bg-emerald-500", val: "text-emerald-700" },
   };
-  const style = accents[accent] ?? accents.blue;
-
+  const s = styles[accent] ?? styles.blue;
   return (
-    <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex items-center gap-4">
-      <div className={`p-3 rounded-xl ${style.icon}`}>
+    <div className={`bg-linear-to-br ${s.wrap} border rounded-xl sm:rounded-2xl p-2 sm:p-5 flex flex-col gap-1.5 sm:gap-3 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200`}>
+      <div className={`w-6 h-6 sm:w-10 sm:h-10 rounded-md sm:rounded-xl ${s.icon} flex items-center justify-center text-white text-sm sm:text-lg`}>
         {icon}
       </div>
       <div>
-        <p className="text-xs text-gray-400 uppercase tracking-wide mb-0.5">{label}</p>
-        <p className={`text-2xl font-bold ${style.value}`}>{value}</p>
+        <p className="text-[9px] sm:text-xs text-gray-400 uppercase leading-tight mb-0.5">{label}</p>
+        <p className={`text-base sm:text-3xl font-extrabold ${s.val}`}>{value}</p>
       </div>
     </div>
   );
 };
 
 const Profile = () => {
-  const [user, setUser] = useState(null);
+  const [user, setUser]       = useState(null);
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchData = async () => {
+    (async () => {
       try {
-        const [userRes, resultsRes] = await Promise.all([
+        const [uRes, rRes] = await Promise.all([
           api.get("/api/auth/me"),
           api.get("/api/results/me"),
         ]);
-        setUser(userRes.data.user);
-        setResults(resultsRes.data.results || []);
-      } catch (error) {
-        console.error("Xəta:", error);
+        setUser(uRes.data.user);
+        setResults(rRes.data.results || []);
+      } catch (e) {
+        console.error("Xəta:", e);
       } finally {
         setLoading(false);
       }
-    };
-    fetchData();
+    })();
   }, []);
 
   if (loading) return <Spinner />;
 
-  const totalScore = results.reduce((sum, r) => sum + (r.score || 0), 0);
-  const totalCorrect = results.reduce(
-    (sum, r) => sum + (r.answers?.filter((a) => a.isCorrect).length || 0),
-    0
-  );
-  const lastResult = results[0];
-  const lastQuizLabel = lastResult
-    ? `${lastResult.quiz?.title || "Quiz"} — ${dayjs(lastResult.createdAt).format("DD MMMM YYYY")}`
-    : null;
-
-  const rank = getRank(totalScore);
+  const totalScore   = results.reduce((s, r) => s + (r.score || 0), 0);
+  const totalCorrect = results.reduce((s, r) => s + (r.answers?.filter((a) => a.isCorrect).length || 0), 0);
+  const rank         = getRank(totalScore);
+  const { pct, next, needed } = getRankProgress(totalScore);
+  const recentResults = results.slice(0, 5);
 
   return (
-    <div className="min-h-screen bg-slate-50 px-4 py-12">
-      <div className="max-w-3xl mx-auto flex flex-col gap-6">
+    <div className="min-h-screen bg-linear-to-br from-slate-100 via-blue-50/30 to-slate-100">
+      <div className="max-w-4xl mx-auto px-2 sm:px-6 py-3 sm:py-10 flex flex-col gap-2.5 sm:gap-5">
 
-        {/* Profile header card */}
-        <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-6 flex items-center gap-5">
-          {/* Avatar */}
-          <div className="shrink-0">
-            {user.img ? (
-              <img
-                src={user.img}
-                alt="profil"
-                className="w-20 h-20 rounded-2xl object-cover border border-gray-100 shadow-sm"
-              />
-            ) : (
-              <div className="w-20 h-20 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center">
-                <FiUser className="text-blue-400 text-3xl" />
-              </div>
-            )}
-          </div>
+        {/* ── Hero card ── */}
+        <div className="relative bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+          {/* top accent strip */}
+          <div className="h-2 w-full bg-linear-to-r from-blue-500 via-purple-500 to-blue-400" />
 
-          {/* Name & date */}
-          <div className="flex-1 min-w-0">
-            <p className="text-xs text-gray-400 uppercase tracking-wide mb-1">Profil</p>
-            <h1 className="text-xl font-bold text-gray-900 truncate">{user.name}</h1>
-            <div className="flex items-center gap-1.5 mt-1.5 text-gray-400 text-sm">
-              <FiCalendar className="text-base shrink-0" />
-              <span>{dayjs().format("DD MMMM YYYY")}</span>
+          <div className="p-3 sm:p-7 flex flex-row items-center gap-2.5 sm:gap-6">
+            {/* Avatar */}
+            <div className="shrink-0">
+              {user.img ? (
+                <img
+                  src={user.img}
+                  alt="profil"
+                  className="w-12 h-12 sm:w-24 sm:h-24 rounded-xl sm:rounded-2xl object-cover border-2 border-white shadow-md"
+                />
+              ) : (
+                <div className="w-12 h-12 sm:w-24 sm:h-24 rounded-xl sm:rounded-2xl bg-linear-to-br from-blue-400 to-blue-600 flex items-center justify-center shadow-md">
+                  <FiUser className="text-white text-xl sm:text-4xl" />
+                </div>
+              )}
             </div>
-          </div>
 
-          {/* Rank badge */}
-          <div className={`shrink-0 flex items-center gap-2 px-4 py-2 rounded-xl border font-semibold text-sm ${rank.bg} ${rank.border} ${rank.color}`}>
-            <FiAward className="text-base" />
-            {rank.label}
+            {/* Info */}
+            <div className="flex-1 min-w-0">
+              <p className="text-[9px] sm:text-xs font-semibold text-blue-400 uppercase tracking-wide mb-0.5">Profil</p>
+              <h1 className="text-sm sm:text-2xl font-extrabold text-gray-900 truncate">{user.name}</h1>
+              {user.email && (
+                <p className="text-[10px] sm:text-sm text-gray-400 mt-0.5 truncate">{user.email}</p>
+              )}
+              <div className="flex items-center gap-1 mt-1 text-gray-400 text-[10px] sm:text-sm">
+                <FiCalendar className="shrink-0 text-[10px] sm:text-base" />
+                <span>{dayjs().format("DD MMM YYYY")}</span>
+              </div>
+            </div>
+
+            {/* Rank badge */}
+            <div className={`shrink-0 flex flex-col items-center gap-0.5 px-2 py-1.5 sm:px-5 sm:py-3 rounded-lg sm:rounded-2xl border-2 font-bold ${rank.bg} ${rank.border} ${rank.color}`}>
+              <FiAward className="text-base sm:text-2xl" />
+              <span className="text-[9px] sm:text-sm leading-none">{rank.label}</span>
+            </div>
           </div>
         </div>
 
-        {/* Rank info */}
-        <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-5 flex items-center gap-4">
-          <div className="p-3 rounded-xl bg-yellow-50">
-            <FiStar className="text-yellow-500 text-xl" />
-          </div>
-          <div>
-            <p className="font-semibold text-gray-800 text-sm">Sənin rütbən</p>
-            <p className="text-gray-400 text-xs mt-0.5">Toplam {totalScore} xal əsasında</p>
-          </div>
-          <div className="ml-auto">
-            <span className={`text-xs font-semibold px-3 py-1.5 rounded-full border ${rank.bg} ${rank.border} ${rank.color}`}>
+        {/* ── Stats grid ── */}
+        <div className="grid grid-cols-3 gap-2 sm:gap-4">
+          <StatCard icon={<FiStar />}         label="Ümumi xal"       value={totalScore}    accent="blue"    />
+          <StatCard icon={<MdOutlineQuiz />}   label="İştirak sayı"    value={results.length} accent="purple"  />
+          <StatCard icon={<FiCheckCircle />}   label="Düzgün cavab"    value={totalCorrect}  accent="emerald" />
+        </div>
+
+        {/* ── Rank progress ── */}
+        <div className="bg-white rounded-xl sm:rounded-2xl border border-gray-100 shadow-sm p-3 sm:p-5">
+          <div className="flex items-center gap-2 mb-2.5">
+            <div className="p-1 sm:p-1.5 rounded-md bg-yellow-50 shrink-0">
+              <FiZap className="text-yellow-500 text-xs sm:text-base" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="font-semibold text-gray-800 text-[11px] sm:text-sm">Rütbə irəliləyişi</p>
+              {next ? (
+                <p className="text-[9px] sm:text-xs text-gray-400 truncate">{needed} xal → <span className="font-medium">{next}</span></p>
+              ) : (
+                <p className="text-[9px] sm:text-xs text-gray-400">Maks. rütbəyə çatdınız!</p>
+              )}
+            </div>
+            <span className={`shrink-0 text-[9px] sm:text-xs font-bold px-1.5 py-0.5 sm:px-3 sm:py-1.5 rounded-full border ${rank.bg} ${rank.border} ${rank.color}`}>
               {rank.label}
             </span>
           </div>
+          <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
+            <div
+              className={`h-full rounded-full transition-all duration-700 ${rank.bar}`}
+              style={{ width: `${pct}%` }}
+            />
+          </div>
+          <div className="flex justify-between mt-1 text-[10px] sm:text-xs text-gray-400">
+            <span>{totalScore} xal</span>
+            <span>{pct}%</span>
+          </div>
         </div>
 
-        {/* Stats grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <StatCard
-            icon={<FiStar className="text-xl" />}
-            label="Ümumi xallarım"
-            value={totalScore}
-            accent="blue"
-          />
-          <StatCard
-            icon={<MdOutlineQuiz className="text-xl" />}
-            label="İştirak"
-            value={results.length}
-            accent="purple"
-          />
-          <StatCard
-            icon={<FiCheckCircle className="text-xl" />}
-            label="Düzgün cavablar"
-            value={totalCorrect}
-            accent="emerald"
-          />
-        </div>
-
-        {/* Recent activity */}
-        <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-5">
-          <div className="flex items-center gap-2 mb-5">
-            <div className="p-2 rounded-lg bg-blue-50">
-              <FiActivity className="text-blue-500 text-base" />
+        {/* ── Recent results ── */}
+        <div className="bg-white rounded-xl sm:rounded-2xl border border-gray-100 shadow-sm p-3 sm:p-5">
+          <div className="flex items-center gap-2 mb-2.5">
+            <div className="p-1 sm:p-1.5 rounded-md bg-blue-50 shrink-0">
+              <FiActivity className="text-blue-500 text-xs sm:text-base" />
             </div>
-            <h3 className="font-semibold text-gray-800 text-sm">Son aktivlik</h3>
+            <h3 className="font-semibold text-gray-800 text-[11px] sm:text-sm">Son aktivlik</h3>
           </div>
 
-          <div className="flex items-center justify-between py-3 border-b border-gray-50">
-            <span className="text-sm text-gray-500">Son yarış</span>
-            <span className="text-sm font-medium text-gray-800">
-              {lastQuizLabel || "Məlumat yoxdur"}
-            </span>
-          </div>
-
-          <div className="flex items-center justify-between pt-3">
-            <span className="text-sm text-gray-500">Status</span>
-            <span className="inline-flex items-center gap-1.5 text-sm font-medium text-emerald-600">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-              Tamamlandı
-            </span>
-          </div>
+          {recentResults.length === 0 ? (
+            <p className="text-xs text-gray-400 text-center py-4">Hələ heç bir quiz tamamlanmayıb</p>
+          ) : (
+            <div className="flex flex-col divide-y divide-gray-50">
+              {recentResults.map((r, i) => {
+                const correct = r.answers?.filter((a) => a.isCorrect).length ?? 0;
+                const total   = r.answers?.length ?? 0;
+                const pctScore = total > 0 ? Math.round((correct / total) * 100) : 0;
+                const dotColor = pctScore >= 80 ? "bg-emerald-400" : pctScore >= 50 ? "bg-yellow-400" : "bg-red-400";
+                return (
+                  <div key={i} className="flex items-center justify-between py-2.5 gap-2">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <span className={`shrink-0 w-1.5 h-1.5 rounded-full ${dotColor}`} />
+                      <div className="min-w-0">
+                        <p className="text-xs sm:text-sm font-medium text-gray-800 truncate">
+                          {r.quiz?.title || "Quiz"}
+                        </p>
+                        <p className="text-[10px] sm:text-xs text-gray-400">
+                          {dayjs(r.createdAt).format("DD MMMM YYYY")}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="shrink-0 text-right">
+                      <p className="text-xs sm:text-sm font-bold text-gray-700">{correct}/{total}</p>
+                      <p className="text-[10px] sm:text-xs text-gray-400">{pctScore}%</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
 
       </div>
