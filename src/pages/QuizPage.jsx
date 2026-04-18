@@ -138,7 +138,7 @@ const QuizPage = () => {
                       {quiz.duration && (
                         <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-gray-50 text-gray-500 text-xs font-medium border border-gray-200">
                           <FiClock className="text-sky-500" size={11} />
-                          {quiz.duration} min
+                          {Math.ceil(quiz.duration / 60)} min
                         </span>
                       )}
                       {quiz.questions?.length != null && (
