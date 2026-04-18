@@ -189,17 +189,17 @@ const Admin = () => {
               <FiTrash2 className="text-red-500 text-xl" />
             </div>
             <h2 className="text-gray-900 font-semibold text-center mt-3 mb-1">
-              Delete this topic?
+              Bu quiz silinsin
             </h2>
             <p className="text-gray-400 text-sm text-center mb-6">
-              This action cannot be undone.
+              Bu əməliyyat geri qaytarıla bilməz
             </p>
             <div className="flex gap-3">
               <button
                 onClick={() => setIsOpenModal(false)}
                 className="flex-1 py-2.5 rounded-xl text-sm font-medium text-gray-600 border border-gray-200 hover:bg-gray-50 transition-colors cursor-pointer"
               >
-                Cancel
+                İmtina
               </button>
               <button
                 onClick={() => {
@@ -208,7 +208,7 @@ const Admin = () => {
                 }}
                 className="flex-1 py-2.5 rounded-xl text-sm font-semibold text-white bg-red-500 hover:bg-red-600 transition-colors cursor-pointer"
               >
-                Delete
+                Silmək
               </button>
             </div>
           </div>
