@@ -24,6 +24,7 @@ import ChangePassword from "./pages/auth/ChangePassword";
 import Admin from "./pages/Admin";
 import CreateQuiz from "./pages/CreateQuiz";
 import Quizzes from "./pages/Quizzes";
+import Users from "./pages/Users";
 
 const App = () => {
   return (
@@ -83,6 +84,8 @@ const App = () => {
 
 
         <Route path="change-password" element={<ChangePassword/>}/>
+
+        <Route path="/users" element={<Users/>}/>
 
 
       </Routes>
